@@ -114,11 +114,11 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
   }, [canvasRef.current, simulation.current]);
 
   return (
-    <div className="w-dvh space-around flex h-dvh flex-col justify-center gap-8 px-8">
+    <div className="w-dvh space-around flex h-dvh flex-col items-center justify-center gap-8 px-8">
       <h1 className="text-center text-3xl font-light md:text-4xl">
         Website under construction...
       </h1>
-      <div className="flex flex-col-reverse items-center justify-center gap-8 md:flex-row md:gap-0">
+      <div className="flex w-full max-w-3xl flex-col-reverse items-center justify-center gap-8 md:flex-row md:gap-0">
         <div className="aspect-square w-1/2 md:w-1/3">
           <canvas ref={canvasRef} className="h-full w-full" />
         </div>
@@ -130,7 +130,7 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
           />
         </div>
       </div>
-      <div className="mx-auto flex gap-8 text-7xl">
+      <div className="mx-auto flex gap-8 text-3xl md:text-5xl">
         <a title="Email" href="mailto:contact@nvlv-studio.com">
           <MdOutlineEmail />
         </a>
