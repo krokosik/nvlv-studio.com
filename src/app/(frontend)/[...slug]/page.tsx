@@ -4,10 +4,12 @@ import { modulesQuery } from '@/lib/sanity/queries';
 import { notFound } from 'next/navigation';
 import Modules from '@/ui/modules';
 import processMetadata from '@/lib/processMetadata';
+import LogoCanvas from '@/ui/LogoCanvas';
 
 export default async function Page({ params }: Props) {
   const page = await getPage(params);
   if (!page) notFound();
+  return <LogoCanvas />;
   return <Modules modules={page?.modules} page={page} />;
 }
 

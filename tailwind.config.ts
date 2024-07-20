@@ -6,10 +6,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: '#000',
-        canvas: '#fff',
+        ink: '#fff',
+        canvas: '#000',
 
-        accent: '#000',
+        accent: '#fff',
       },
       fontFamily: {},
       maxHeight: {

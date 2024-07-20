@@ -2,9 +2,11 @@ import { fetchSanity, groq } from '@/lib/sanity/fetch';
 import { modulesQuery } from '@/lib/sanity/queries';
 import Modules from '@/ui/modules';
 import processMetadata from '@/lib/processMetadata';
+import LogoCanvas from '@/ui/LogoCanvas';
 
 export default async function Page() {
   const page = await getPage();
+  return <LogoCanvas />;
   return <Modules modules={page?.modules} />;
 }
 
