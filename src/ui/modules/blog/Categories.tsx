@@ -1,19 +1,19 @@
-import Category from './Category'
+import Category from './Category';
 
 export default function Categories({
-	categories,
+  categories,
 }: {
-	categories?: Sanity.BlogCategory[]
+  categories?: Sanity.BlogCategory[];
 }) {
-	if (!categories?.length) return null
+  if (!categories?.length) return null;
 
-	return (
-		<ul>
-			{categories.map((category, key) => (
-				<li key={key}>
-					<Category value={category} />
-				</li>
-			))}
-		</ul>
-	)
+  return (
+    <ul>
+      {categories.map((category, key) => (
+        <li key={key}>
+          <Category value={category} />
+        </li>
+      ))}
+    </ul>
+  );
 }

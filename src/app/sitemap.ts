@@ -1,9 +1,9 @@
-import { fetchSanity, groq } from '@/lib/sanity/fetch'
-import type { MetadataRoute } from 'next'
+import { fetchSanity, groq } from '@/lib/sanity/fetch';
+import type { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const allPages = await fetchSanity<Record<string, MetadataRoute.Sitemap>>(
-		groq`{
+  const allPages = await fetchSanity<Record<string, MetadataRoute.Sitemap>>(
+    groq`{
 			'pages': *[
 				_type == 'page' &&
 				!(metadata.slug.current in ['404']) &&
@@ -22,12 +22,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 				'priority': 0.4
 			}
 		}`,
-		{
-			params: {
-				baseUrl: process.env.NEXT_PUBLIC_BASE_URL + '/',
-			},
-		},
-	)
+    {
+      params: {
+        baseUrl: process.env.NEXT_PUBLIC_BASE_URL + '/',
+      },
+    },
+  );
 
-	return Object.values(allPages).flat()
+  return Object.values(allPages).flat();
 }

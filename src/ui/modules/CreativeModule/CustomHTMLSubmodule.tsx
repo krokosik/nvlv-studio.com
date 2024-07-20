@@ -1,16 +1,16 @@
-import CustomHTML from '../CustomHTML'
+import CustomHTML from '../CustomHTML';
 
 export type CustomHTMLSubmoduleType = Sanity.Module<'custom-html'> &
-	Partial<{
-		html: {
-			code: string
-		}
-	}>
+  Partial<{
+    html: {
+      code: string;
+    };
+  }>;
 
 export default function CustomHTMLSubmodule({
-	module,
+  module,
 }: {
-	module: CustomHTMLSubmoduleType
+  module: CustomHTMLSubmoduleType;
 }) {
-	return <CustomHTML html={module?.html} />
+  return <CustomHTML html={module?.html} />;
 }

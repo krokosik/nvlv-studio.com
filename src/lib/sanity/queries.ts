@@ -1,9 +1,9 @@
-import { fetchSanity, groq } from './fetch'
+import { fetchSanity, groq } from './fetch';
 
 export const linkQuery = groq`
 	...,
 	internal->{ _type, title, metadata }
-`
+`;
 
 const navigationQuery = groq`
 	title,
@@ -12,11 +12,11 @@ const navigationQuery = groq`
 		link{ ${linkQuery} },
 		links[]{ ${linkQuery} }
 	}
-`
+`;
 
 export async function getSite() {
-	const site = await fetchSanity<Sanity.Site>(
-		groq`
+  const site = await fetchSanity<Sanity.Site>(
+    groq`
 			*[_type == 'site'][0]{
 				...,
 				ctas[]{
@@ -29,12 +29,12 @@ export async function getSite() {
 				'ogimage': ogimage.asset->url
 			}
 		`,
-		{ tags: ['site'] },
-	)
+    { tags: ['site'] },
+  );
 
-	if (!site) throw new Error("Missing 'site' document in Sanity Studio")
+  if (!site) throw new Error("Missing 'site' document in Sanity Studio");
 
-	return site
+  return site;
 }
 
 export const modulesQuery = groq`
@@ -69,4 +69,4 @@ export const modulesQuery = groq`
 	},
 	_type == 'testimonial.featured' => { testimonial-> },
 	_type == 'testimonial-list' => { testimonials[]-> },
-`
+`;
