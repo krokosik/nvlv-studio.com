@@ -1,13 +1,13 @@
 'use client';
 import { forceSimulation, Simulation, SimulationNodeDatum } from 'd3-force';
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import d3ForceBounce from 'd3-force-bounce';
 import d3ForceSurface from 'd3-force-surface';
 import Image from 'next/image';
-import LogoText from './logo-text.png';
 import { IoLogoInstagram } from 'react-icons/io';
 import { MdOutlineEmail } from 'react-icons/md';
+import LogoText from './logo-text.png';
 
 export interface SimulationParams {
   orbRadius?: number;
@@ -32,7 +32,7 @@ export interface SimulationNode extends SimulationNodeDatum {
 const defaultParams: SimulationParams = {
   numOrbs: 5,
   gasDensity: 0.0001,
-  temperature: 10,
+  temperature: 5,
   showOrbs: true,
   showGas: false,
   showLinks: true,
@@ -43,7 +43,8 @@ const defaultParams: SimulationParams = {
 
 export default function LogoCanvas(props: Partial<SimulationParams>) {
   const params = { ...defaultParams, ...props };
-  const simulation = useRef<Simulation<SimulationNode, any>>();
+  const [simulation, setSimulation] =
+    useState<Simulation<SimulationNode, any>>();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -53,7 +54,8 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
     resizeCanvasToDisplaySize(canvas);
 
     function resizeHandler() {
-      console.log('resizeHandler');
+      simulation?.stop();
+      setSimulation(undefined);
       resizeCanvasToDisplaySize(canvas);
     }
     window.addEventListener('resize', resizeHandler);
@@ -69,26 +71,30 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
 
     const nodes = initOrbs(params, width, height);
 
-    simulation.current = forceSimulation(nodes)
-      .alphaDecay(0)
-      .velocityDecay(0)
-      .force(
-        'bounce',
-        d3ForceBounce().radius((d: SimulationNode) => d.r),
-      )
-      .force(
-        'surface',
-        d3ForceSurface()
-          .surfaces([
-            { from: { x: width, y: 0 }, to: { x: 0, y: 0 } },
-            { from: { x: width, y: height }, to: { x: width, y: 0 } },
-            { from: { x: 0, y: height }, to: { x: width, y: height } },
-            { from: { x: 0, y: 0 }, to: { x: 0, y: height } },
-          ])
-          .oneWay(true)
-          .radius((d: SimulationNode) => d.r),
-      )
-      .on('tick', () => {});
+    setSimulation(
+      forceSimulation(nodes)
+        .alphaDecay(0)
+        .velocityDecay(0)
+        .force(
+          'bounce',
+          d3ForceBounce().radius((d: SimulationNode) => d.r),
+        )
+        .force(
+          'surface',
+          d3ForceSurface()
+            .surfaces([
+              { from: { x: width, y: 0 }, to: { x: 0, y: 0 } },
+              { from: { x: width, y: height }, to: { x: width, y: 0 } },
+              { from: { x: 0, y: height }, to: { x: width, y: height } },
+              { from: { x: 0, y: 0 }, to: { x: 0, y: height } },
+            ])
+            .oneWay(true)
+            .radius((d: SimulationNode) => d.r),
+        )
+        .on('tick', () => {
+          draw(ctx, params, simulation);
+        }),
+    );
 
     return () => {
       window.removeEventListener('resize', resizeHandler);
@@ -102,16 +108,8 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
     params.numOrbs,
     params.gasDensity,
     params.temperature,
+    !simulation,
   ]);
-
-  useEffect(() => {
-    if (!canvasRef.current) return;
-
-    const ctx = canvasRef.current.getContext('2d');
-    if (!ctx) return;
-
-    draw(ctx, params, simulation);
-  }, [canvasRef.current, simulation.current]);
 
   return (
     <div className="w-dvh space-around flex h-dvh flex-col items-center justify-center gap-8 px-8">
@@ -162,9 +160,9 @@ function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement): void {
 function draw(
   ctx: CanvasRenderingContext2D,
   params: SimulationParams,
-  simulation?: MutableRefObject<Simulation<SimulationNode, any> | undefined>,
+  simulation?: Simulation<SimulationNode, any> | undefined,
 ) {
-  const nodes = simulation?.current?.nodes();
+  const nodes = simulation?.nodes();
   if (!nodes) {
     return;
   }
@@ -220,8 +218,6 @@ function draw(
       }
     }
   }
-
-  requestAnimationFrame(() => draw(ctx, params, simulation));
 }
 
 function initOrbs(
