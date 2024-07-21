@@ -1,6 +1,6 @@
 'use client';
 import { forceSimulation, Simulation, SimulationNodeDatum } from 'd3-force';
-import { useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 
 import d3ForceBounce from 'd3-force-bounce';
 import d3ForceSurface from 'd3-force-surface';
@@ -138,6 +138,17 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
       </div>
     </div>
   );
+}
+
+function getCanvasPosition(event: MouseEvent, canvas: HTMLCanvasElement) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+
+  return {
+    x: (event.clientX - rect.left) * scaleX,
+    y: (event.clientY - rect.top) * scaleY,
+  };
 }
 
 function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement): void {
@@ -294,8 +305,8 @@ function initOrbs(
     for (let i = 0; i < params.numOrbs; i++) {
       nodes.push({
         type: 'orb',
-        x: random(params.orbRadius * 1.2, width - params.orbRadius * 1.2),
-        y: random(params.orbRadius * 1.2, height - params.orbRadius * 1.2),
+        x: random(params.orbRadius * 1.5, width - params.orbRadius * 1.5),
+        y: random(params.orbRadius * 1.5, height - params.orbRadius * 1.5),
         vx: 0,
         vy: 0,
         r: params.orbRadius,
