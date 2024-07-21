@@ -70,6 +70,7 @@ export default defineConfig({
   },
 
   schema: {
+    // @ts-ignore defineArrayMember seems to not add the name property which results in an error
     types: schemaTypes,
     templates: (templates) =>
       templates.filter(

@@ -44,6 +44,7 @@ export default defineType({
       of: [
         {
           type: 'custom-block',
+          // @ts-ignore
           styles: [{ title: 'Normal', value: 'normal' }],
         },
       ],
