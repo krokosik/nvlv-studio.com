@@ -191,30 +191,93 @@ function draw(
     }
   }
 
-  if (params.showLinks) {
+  if (params.showLinks && params.orbRadius) {
     for (let i = 0; i < params.numOrbs; i++) {
       for (let j = i + 1; j < params.numOrbs; j++) {
-        const distance = Math.hypot(
-          nodes[i].x! - nodes[j].x!,
-          nodes[i].y! - nodes[j].y!,
-        );
+        const source = nodes[i];
+        const target = nodes[j];
+
+        if (!source.x || !source.y || !target.x || !target.y) continue;
+
+        const distance = Math.hypot(source.x - target.x, source.y - target.y);
 
         const thickness = Math.sqrt(
           Math.max(
-            (params.orbRadius! / 4) ** 2 -
-              (distance - 2 * params.orbRadius!) ** 2 / 25,
             0,
+            (params.orbRadius / 2) ** 2 -
+              ((distance - 2 * params.orbRadius) / 2) ** 2,
           ),
         );
 
         if (thickness <= 0 || isNaN(thickness)) continue;
 
+        const angleBetween = Math.atan2(
+          target.y - source.y,
+          target.x - source.x,
+        );
+
+        const doubleChordAngle = Math.asin(thickness / params.orbRadius);
+
+        const angle1 = angleBetween + doubleChordAngle;
+        const angle2 = angleBetween - doubleChordAngle;
+
+        const angle3 = angleBetween + Math.PI - doubleChordAngle;
+        const angle4 = angleBetween + Math.PI + doubleChordAngle;
+
+        const p1 = shiftByAngle(source.x, source.y, angle1, params.orbRadius);
+        const p2 = shiftByAngle(source.x, source.y, angle2, params.orbRadius);
+        const p3 = shiftByAngle(target.x, target.y, angle3, params.orbRadius);
+        const p4 = shiftByAngle(target.x, target.y, angle4, params.orbRadius);
+
+        const angleDiff = Math.atan(thickness / 2 / params.orbRadius);
+        const h1 = shiftByAngle(
+          source.x,
+          source.y,
+          angleBetween + angleDiff,
+          params.orbRadius,
+        );
+        const h2 = shiftByAngle(
+          source.x,
+          source.y,
+          angleBetween - angleDiff,
+          params.orbRadius,
+        );
+        const h3 = shiftByAngle(
+          target.x,
+          target.y,
+          angleBetween + Math.PI - angleDiff,
+          params.orbRadius,
+        );
+        const h4 = shiftByAngle(
+          target.x,
+          target.y,
+          angleBetween + Math.PI + angleDiff,
+          params.orbRadius,
+        );
+
+        const mid1 = shiftByAngle(
+          source.x,
+          source.y,
+          angleBetween + Math.atan(thickness / distance),
+          distance / 2,
+        );
+        const mid2 = shiftByAngle(
+          source.x,
+          source.y,
+          angleBetween - Math.atan(thickness / distance),
+          distance / 2,
+        );
+
         ctx.beginPath();
-        ctx.moveTo(nodes[i].x!, nodes[i].y!);
-        ctx.lineTo(nodes[j].x!, nodes[j].y!);
-        ctx.lineWidth = thickness;
-        ctx.strokeStyle = `rgba(${params.fill.join(',')})`;
-        ctx.stroke();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.quadraticCurveTo(h1.x, h1.y, mid1.x, mid1.y);
+        ctx.quadraticCurveTo(h3.x, h3.y, p3.x, p3.y);
+        ctx.lineTo(p4.x, p4.y);
+        ctx.quadraticCurveTo(h4.x, h4.y, mid2.x, mid2.y);
+        ctx.quadraticCurveTo(h2.x, h2.y, p2.x, p2.y);
+        ctx.closePath();
+        ctx.fillStyle = `rgba(${params.fill.join(',')})`;
+        ctx.fill();
       }
     }
   }
@@ -266,4 +329,11 @@ function gaussianRandom(mean = 0, stdev = 1): number {
   const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
   // Transform to the desired mean and standard deviation:
   return z * stdev + mean;
+}
+
+function shiftByAngle(x: number, y: number, angle: number, distance: number) {
+  return {
+    x: x + Math.cos(angle) * distance,
+    y: y + Math.sin(angle) * distance,
+  };
 }
