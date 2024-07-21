@@ -18,7 +18,7 @@ const singletonTypes = ['site'];
 
 export default defineConfig({
   name: 'default',
-  title: 'SanityPress',
+  title: 'NVLV Studio CMS',
 
   projectId,
   dataset: 'production',
