@@ -30,6 +30,9 @@
     accent-color: theme('colors.accent');
     caret-color: theme('colors.accent');
     scroll-behavior: smooth;
+    text-transform: uppercase;
+    font-weight: 200;
+    letter-spacing: 0.04em;
   }
 
   label {
@@ -49,7 +52,7 @@
   /* typography */
 
   ._h {
-    font-weight: bold;
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
@@ -79,7 +82,7 @@
   }
 
   .technical {
-    text-transform: uppercase;
+    font-weight: 400;
   }
 
   .text-shadow {

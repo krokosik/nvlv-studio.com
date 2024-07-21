@@ -5,11 +5,15 @@ import Pretitle from '@/ui/Pretitle';
 import { stegaClean } from '@sanity/client/stega';
 import CustomPortableText from './CustomPortableText';
 import css from './Hero.module.css';
+import LogoCanvas from '../CanvasLogo.tsx/LogoCanvas';
 
 export default function Hero({
   pretitle,
   content,
   ctas,
+  enableOrbs,
+  orbFill,
+  orbBackground,
   bgImage,
   bgImageMobile,
   textAlign = 'center',
@@ -18,12 +22,15 @@ export default function Hero({
   pretitle: string;
   content: any;
   ctas: Sanity.CTA[];
+  enableOrbs: boolean;
+  orbFill?: any;
+  orbBackground?: any;
   bgImage: Sanity.Image;
   bgImageMobile: Sanity.Image;
   textAlign: React.CSSProperties['textAlign'];
   alignItems: React.CSSProperties['alignItems'];
 }>) {
-  const hasImage = !!bgImage?.asset;
+  const hasImage = !!bgImage?.asset || enableOrbs;
 
   return (
     <section
@@ -32,7 +39,7 @@ export default function Hero({
           'grid overflow-hidden bg-ink text-canvas *:col-span-full *:row-span-full',
       )}
     >
-      {bgImage?.asset && (
+      {!enableOrbs && bgImage?.asset && (
         <picture>
           <Source image={bgImageMobile} imageWidth={1200} />
           <Img
@@ -42,6 +49,15 @@ export default function Hero({
             draggable={false}
           />
         </picture>
+      )}
+      {enableOrbs && (
+        <div className="size-full max-h-fold object-cover">
+          <LogoCanvas
+            fillColor={orbFill?.value?.slice(0, 7) ?? 'transparent'}
+            backgroundColor={orbBackground?.value?.slice(0, 7) ?? 'transparent'}
+            square
+          />
+        </div>
       )}
 
       {content && (

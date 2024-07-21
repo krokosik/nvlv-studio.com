@@ -64,11 +64,21 @@ export function getCanvasPosition(
   };
 }
 
-export function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement): void {
+export function resizeCanvasToDisplaySize(
+  canvas: HTMLCanvasElement,
+  square?: boolean,
+): void {
   // Lookup the size the browser is displaying the canvas in CSS pixels.
   const dpr = window.devicePixelRatio;
   const displayWidth = Math.round(canvas.clientWidth * dpr);
   const displayHeight = Math.round(canvas.clientHeight * dpr);
+
+  if (square) {
+    const maxSize = Math.max(displayWidth, displayHeight);
+    canvas.width = maxSize;
+    canvas.height = maxSize;
+    return;
+  }
 
   // Check if the canvas is not the same size.
   const needResize =

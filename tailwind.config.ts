@@ -8,7 +8,7 @@ const config: Config = {
       colors: {
         ink: '#fff',
         canvas: '#000',
-
+        neutral: '#000',
         accent: '#fff',
       },
       fontFamily: {},

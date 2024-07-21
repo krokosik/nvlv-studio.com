@@ -53,7 +53,7 @@ export default defineConfig({
       defaultColorList: [
         { label: 'Red', value: '#EC6C4F' },
         { label: 'Violet', value: '#4A47AF' },
-        { label: 'Beige', value: '#ca786d' },
+        { label: 'Beige', value: '#F5E8C9' },
         { label: 'Black', value: '#000000' },
         { label: 'White', value: '#FFFFFF' },
         { label: 'Alternative Violet', value: '#724FB7' },
