@@ -10,9 +10,21 @@ import VisualEditingControls from '@/ui/VisualEditingControls';
 import '@/styles/app.css';
 
 export const metadata: Metadata = {
-  icons: {
-    icon: `https://fav.farm/🖤`,
-  },
+  title: 'NVLV Studio - Creative Agency',
+  description:
+    "Portfolio and marketing website of NVLV Studio. We're more than just a creative agency - we're visionaries at the intersection of digital innovation and tangible reality. Our interdisciplinary approach is dedicated to crafting bold and interactive experiences that blur the boundaries between the digital and physical realms.",
+  keywords: [
+    'creative agency',
+    'digital innovation',
+    'portfolio',
+    'marketing',
+    'visionaries',
+    'interdisciplinary',
+    'bold',
+    'interactive experiences',
+    'digital',
+    'physical',
+  ],
 };
 
 export default async function RootLayout({

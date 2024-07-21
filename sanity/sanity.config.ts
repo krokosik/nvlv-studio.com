@@ -13,12 +13,14 @@ import { vercelWidget } from 'sanity-plugin-dashboard-widget-vercel';
 import { visionTool } from '@sanity/vision';
 import { codeInput } from '@sanity/code-input';
 import { schemaTypes } from './schemas';
+import Icon from './Icon';
 
 const singletonTypes = ['site'];
 
 export default defineConfig({
   name: 'default',
   title: 'NVLV Studio CMS',
+  icon: Icon,
 
   projectId,
   dataset: 'production',
