@@ -22,11 +22,11 @@ export interface SimulationParams {
 }
 
 const defaultParams: SimulationParams = {
-  orbRadiiInDim: 8,
+  orbRadiiInDim: 20 / 3,
   gasDensity: 0.0001,
   temperature: 5,
-  maxLinkThicknessPerRadius: 0.6,
-  maxRangePerRadius: 1.7,
+  maxLinkThicknessPerRadius: 0.5,
+  maxRangePerRadius: 3 / 2,
   backgroundColor: '#000',
   fillColor: '#fff',
 };
