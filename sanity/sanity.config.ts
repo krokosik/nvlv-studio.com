@@ -14,6 +14,7 @@ import { visionTool } from '@sanity/vision';
 import { codeInput } from '@sanity/code-input';
 import { schemaTypes } from './schemas';
 import Icon from './Icon';
+import { simplerColorInput } from 'sanity-plugin-simpler-color-input';
 
 const singletonTypes = ['site'];
 
@@ -46,6 +47,22 @@ export default defineConfig({
     }),
     visionTool({ title: 'GROQ' }),
     codeInput(),
+    simplerColorInput({
+      // Note: These are all optional
+      defaultColorFormat: 'hex',
+      defaultColorList: [
+        { label: 'Red', value: '#EC6C4F' },
+        { label: 'Violet', value: '#4A47AF' },
+        { label: 'Beige', value: '#ca786d' },
+        { label: 'Black', value: '#000000' },
+        { label: 'White', value: '#FFFFFF' },
+        { label: 'Alternative Violet', value: '#724FB7' },
+        { label: 'Alternative Orange', value: '#E7A138' },
+        { label: 'Alternative Pink', value: '#E06976' },
+        { label: 'Custom...', value: 'custom' },
+      ],
+      enableSearch: true,
+    }),
   ],
 
   scheduledPublishing: {

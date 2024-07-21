@@ -1,6 +1,6 @@
-import { PortableText } from 'next-sanity';
 import { ImQuotesLeft } from 'react-icons/im';
 import Img from '../Img';
+import CustomPortableText from './CustomPortableText';
 
 export default function TestimonialFeatured({
   testimonial,
@@ -16,7 +16,7 @@ export default function TestimonialFeatured({
           <ImQuotesLeft className="inline-block shrink-0 text-4xl text-accent" />
 
           <div className="self-center text-balance text-xl">
-            <PortableText value={testimonial.content} />
+            <CustomPortableText value={testimonial.content} />
           </div>
 
           <dl className="text-left">

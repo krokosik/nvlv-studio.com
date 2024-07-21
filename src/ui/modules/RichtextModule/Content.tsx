@@ -1,8 +1,8 @@
-import { PortableText } from '@portabletext/react';
-import AnchoredHeading from './AnchoredHeading';
-import Image from './Image';
-import Code from './Code';
 import { cn } from '@/lib/utils';
+import CustomPortableText from '../CustomPortableText';
+import AnchoredHeading from './AnchoredHeading';
+import Code from './Code';
+import Image from './Image';
 
 export default function Content({
   value,
@@ -16,7 +16,7 @@ export default function Content({
         className,
       )}
     >
-      <PortableText
+      <CustomPortableText
         value={value}
         components={{
           block: {

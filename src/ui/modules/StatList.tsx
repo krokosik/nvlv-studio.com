@@ -1,5 +1,5 @@
-import { PortableText } from '@portabletext/react';
 import { stegaClean } from '@sanity/client/stega';
+import CustomPortableText from './CustomPortableText';
 
 export default function StatList({
   intro,
@@ -21,7 +21,7 @@ export default function StatList({
     >
       {intro && (
         <header className="richtext text-center">
-          <PortableText value={intro} />
+          <CustomPortableText value={intro} />
         </header>
       )}
 

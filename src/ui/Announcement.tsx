@@ -1,7 +1,8 @@
-import { PortableText, groq } from 'next-sanity';
 import { fetchSanity } from '@/lib/sanity/fetch';
 import { linkQuery } from '@/lib/sanity/queries';
 import CTA from '@/ui/CTA';
+import { groq } from 'next-sanity';
+import CustomPortableText from './modules/CustomPortableText';
 
 export default async function Announcement() {
   const announcements = await fetchSanity<Sanity.Announcement[]>(
@@ -29,7 +30,7 @@ export default async function Announcement() {
   return (
     <aside className="flex items-center justify-center gap-x-4 bg-ink p-2 text-center text-canvas max-md:text-sm md:gap-x-6">
       <div className="anim-fade-to-r text-balance">
-        <PortableText value={active.content} />
+        <CustomPortableText value={active.content} />
       </div>
 
       <CTA className="link anim-fade-to-l shrink-0" link={active.cta} />

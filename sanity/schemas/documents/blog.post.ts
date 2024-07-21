@@ -16,7 +16,7 @@ export default defineType({
       name: 'body',
       type: 'array',
       of: [
-        { type: 'block' },
+        { type: 'custom-block' },
         imageBlock,
         defineArrayMember({
           type: 'code',

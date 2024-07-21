@@ -1,6 +1,5 @@
-import { PortableText } from '@portabletext/react';
 import Img from '@/ui/Img';
-import { cn } from '@/lib/utils';
+import CustomPortableText from './CustomPortableText';
 
 export default function TestimonialList({
   intro,
@@ -13,7 +12,7 @@ export default function TestimonialList({
     <section className="section space-y-8 text-center">
       {intro && (
         <header className="richtext">
-          <PortableText value={intro} />
+          <CustomPortableText value={intro} />
         </header>
       )}
 
@@ -22,7 +21,7 @@ export default function TestimonialList({
           <article className="!basis-[min(450px,70vw)]" key={key}>
             <blockquote className="space-y-6">
               <div className="richtext text-balance">
-                <PortableText value={testimonial.content} />
+                <CustomPortableText value={testimonial.content} />
               </div>
 
               {testimonial.author && (

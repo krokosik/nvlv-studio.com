@@ -1,9 +1,9 @@
 import { getSite } from '@/lib/sanity/queries';
-import Navigation from './Navigation';
 import Social from '@/ui/Social';
-import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
 import Img from '../Img';
+import CustomPortableText from '../modules/CustomPortableText';
+import Navigation from './Navigation';
 
 export default async function Footer() {
   const { title, logo, copyright } = await getSite();
@@ -38,7 +38,7 @@ export default async function Footer() {
 
       <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 p-4 text-sm">
         &copy; {new Date().getFullYear()}{' '}
-        {copyright ? <PortableText value={copyright} /> : title}
+        {copyright ? <CustomPortableText value={copyright} /> : title}
       </div>
     </footer>
   );

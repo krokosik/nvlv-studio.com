@@ -14,7 +14,7 @@ export default defineType({
       type: 'array',
       of: [
         {
-          type: 'block',
+          type: 'custom-block',
           styles: [{ title: 'Normal', value: 'normal' }],
         },
       ],

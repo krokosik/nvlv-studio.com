@@ -1,9 +1,9 @@
-import Img, { Source } from '@/ui/Img';
-import { PortableText } from '@portabletext/react';
-import CTAList from '@/ui/CTAList';
-import Pretitle from '@/ui/Pretitle';
 import { cn } from '@/lib/utils';
+import CTAList from '@/ui/CTAList';
+import Img, { Source } from '@/ui/Img';
+import Pretitle from '@/ui/Pretitle';
 import { stegaClean } from '@sanity/client/stega';
+import CustomPortableText from './CustomPortableText';
 import css from './Hero.module.css';
 
 export default function Hero({
@@ -67,7 +67,7 @@ export default function Hero({
             <Pretitle className={cn(hasImage && 'text-canvas/70')}>
               {pretitle}
             </Pretitle>
-            <PortableText value={content} />
+            <CustomPortableText value={content} />
             <CTAList
               ctas={ctas}
               className={cn('!mt-4', {

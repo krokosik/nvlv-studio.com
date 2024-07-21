@@ -1,8 +1,8 @@
-import { PortableText } from '@portabletext/react';
-import Pretitle from '@/ui/Pretitle';
+import { cn } from '@/lib/utils';
 import CTAList from '@/ui/CTAList';
 import Img from '@/ui/Img';
-import { cn } from '@/lib/utils';
+import Pretitle from '@/ui/Pretitle';
+import CustomPortableText from './CustomPortableText';
 
 export default function HeroSplit({
   pretitle,
@@ -25,7 +25,7 @@ export default function HeroSplit({
 
       <div className="richtext mx-auto w-full max-w-lg [&_:is(h1,h2)]:text-balance">
         <Pretitle>{pretitle}</Pretitle>
-        <PortableText value={content} />
+        <CustomPortableText value={content} />
         <CTAList ctas={ctas} className="!mt-4" />
       </div>
     </section>
