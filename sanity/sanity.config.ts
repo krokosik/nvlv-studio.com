@@ -15,6 +15,7 @@ import { codeInput } from '@sanity/code-input';
 import { schemaTypes } from './schemas';
 import Icon from './Icon';
 import { simplerColorInput } from 'sanity-plugin-simpler-color-input';
+import { theme } from 'https://themer.sanity.build/api/hues?default=4a47af;200;darkest:000000&primary=ec6c4f;darkest:111111&transparent=d2d1d2;100&positive=724fb7;300&caution=e7a138;200&critical=e06978;300&lightest=f5e8c9&darkest=111';
 
 const singletonTypes = ['site'];
 
@@ -26,6 +27,8 @@ export default defineConfig({
   projectId,
   dataset: 'production',
   basePath: '/admin',
+
+  theme,
 
   plugins: [
     structureTool({
