@@ -22,6 +22,7 @@ import accordionList from './modules/accordion-list';
 import blogList from './modules/blog-list';
 import breadcrumbs from './modules/breadcrumbs';
 import callout from './modules/callout';
+import customBlock from './modules/custom-block';
 import creativeModule from './modules/creative';
 import customHtml from './modules/custom-html';
 import flagList from './modules/flag-list';
@@ -61,6 +62,7 @@ export const schemaTypes = [
   blogList,
   breadcrumbs,
   callout,
+  customBlock,
   creativeModule,
   customHtml,
   flagList,

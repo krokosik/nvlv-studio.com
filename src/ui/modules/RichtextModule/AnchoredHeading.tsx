@@ -10,7 +10,7 @@ export default function AnchoredHeading({
   value,
 }: {
   as: keyof JSX.IntrinsicElements;
-} & PortableTextComponentProps<PortableTextBlock>) {
+} & PortableTextComponentProps<CustomPortableTextBlock>) {
   const id = slug(value.children.reduce((acc, { text }) => acc + text, ''));
 
   return (

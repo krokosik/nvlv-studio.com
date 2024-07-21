@@ -1,8 +1,8 @@
-import { PortableText } from '@portabletext/react';
-import Pretitle from '@/ui/Pretitle';
+import { cn } from '@/lib/utils';
 import CTAList from '@/ui/CTAList';
 import Img from '@/ui/Img';
-import { cn } from '@/lib/utils';
+import Pretitle from '@/ui/Pretitle';
+import CustomPortableText from './CustomPortableText';
 
 export default function HeroSaaS({
   pretitle,
@@ -21,7 +21,7 @@ export default function HeroSaaS({
     <section className="section space-y-8 text-center">
       <div className="richtext mx-auto max-w-2xl text-balance">
         <Pretitle>{pretitle}</Pretitle>
-        <PortableText value={content} />
+        <CustomPortableText value={content} />
         <CTAList ctas={ctas} className="!mt-8 justify-center" />
       </div>
 

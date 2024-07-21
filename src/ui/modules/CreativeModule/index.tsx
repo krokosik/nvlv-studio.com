@@ -1,4 +1,5 @@
-import { PortableText } from '@portabletext/react';
+import { cn } from '@/lib/utils';
+import { stegaClean } from '@sanity/client/stega';
 import CTAsSubModule, { type CTAsSubModuleType } from './CTAsSubModule';
 import CustomHTMLSubmodule, {
   type CustomHTMLSubmoduleType,
@@ -8,8 +9,7 @@ import ImageSubModule, { type ImageSubModuleType } from './ImageSubModule';
 import RichtextSubModule, {
   type RichtextSubModuleType,
 } from './RichtextSubModule';
-import { cn } from '@/lib/utils';
-import { stegaClean } from '@sanity/client/stega';
+import CustomPortableText from '../CustomPortableText';
 
 export default function CreativeModule({
   intro,
@@ -42,7 +42,7 @@ export default function CreativeModule({
       <div className="section space-y-8">
         {intro && (
           <header className="richtext mx-auto max-w-xl text-balance text-center">
-            <PortableText value={intro} />
+            <CustomPortableText value={intro} />
           </header>
         )}
 

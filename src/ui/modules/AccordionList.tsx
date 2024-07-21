@@ -1,6 +1,6 @@
 import uid from '@/lib/uid';
 import { cn } from '@/lib/utils';
-import { PortableText } from '@portabletext/react';
+import CustomPortableText from './CustomPortableText';
 
 export default function AccordionList({
   intro,
@@ -35,7 +35,7 @@ export default function AccordionList({
             : 'text-center',
         )}
       >
-        <PortableText value={intro} />
+        <CustomPortableText value={intro} />
       </header>
 
       <div className="mx-auto w-full max-w-screen-md">
@@ -59,7 +59,7 @@ export default function AccordionList({
               itemType="https://schema.org/Answer"
             >
               <div className="richtext" itemProp="text">
-                <PortableText value={content} />
+                <CustomPortableText value={content} />
               </div>
             </div>
           </details>
