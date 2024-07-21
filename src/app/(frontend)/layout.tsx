@@ -53,13 +53,13 @@ export default async function RootLayout({
       {/* <GoogleTagManager gtmId='' /> */}
 
       <body className="bg-canvas text-ink">
-        {/* <SkipToContent /> */}
-        {/* <Announcement /> */}
-        {/* <Header /> */}
+        <SkipToContent />
+        <Announcement />
+        <Header />
         <main id="main-content" tabIndex={-1}>
           {children}
         </main>
-        {/* <Footer /> */}
+        <Footer />
 
         <Analytics />
         <SpeedInsights />
