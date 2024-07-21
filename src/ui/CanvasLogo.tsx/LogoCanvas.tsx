@@ -18,6 +18,7 @@ export interface SimulationParams {
   maxRangePerRadius: number;
   backgroundColor: string;
   fillColor: string;
+  square?: boolean;
 }
 
 const defaultParams: SimulationParams = {
@@ -41,7 +42,7 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    resizeCanvasToDisplaySize(canvas);
+    resizeCanvasToDisplaySize(canvas, params.square);
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -90,7 +91,7 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
       if (requestIdRef.current) {
         cancelAnimationFrame(requestIdRef.current);
       }
-      resizeCanvasToDisplaySize(canvas);
+      resizeCanvasToDisplaySize(canvas, params.square);
       setSimulation(undefined);
     }
     window.addEventListener('resize', resizeHandler);
@@ -100,5 +101,5 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
     };
   }, [!simulation]);
 
-  return <canvas ref={canvasRef} className="h-full w-full" />;
+  return <canvas ref={canvasRef} className="h-full w-full object-cover" />;
 }
