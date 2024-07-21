@@ -8,6 +8,22 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import VisualEditingControls from '@/ui/VisualEditingControls';
 import '@/styles/app.css';
+import localFont from 'next/font/local';
+
+const supplySans = localFont({
+  src: [
+    {
+      path: '../fonts/PPSupplySans-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/PPSupplySans-Ultralight.woff2',
+      weight: '200',
+      style: 'normal',
+    },
+  ],
+});
 
 export const metadata: Metadata = {
   title: 'NVLV Studio - Creative Agency',
@@ -33,7 +49,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={supplySans.className}>
       {/* <GoogleTagManager gtmId='' /> */}
 
       <body className="bg-canvas text-ink">
