@@ -88,10 +88,11 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
     drawFrame();
 
     function resizeHandler() {
+      if (!resizeCanvasToDisplaySize(canvas, params.square)) return;
+
       if (requestIdRef.current) {
         cancelAnimationFrame(requestIdRef.current);
       }
-      resizeCanvasToDisplaySize(canvas, params.square);
       setSimulation(undefined);
     }
     window.addEventListener('resize', resizeHandler);
