@@ -112,8 +112,8 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
   ]);
 
   return (
-    <div className="w-dvh space-around flex h-dvh flex-col items-center justify-center gap-8 px-8">
-      <h1 className="text-3xl font-extralight">
+    <div className="space-around flex size-full min-h-dvh flex-col items-center justify-center gap-8 p-8">
+      <h1 className="text-center text-3xl font-extralight">
         Website under construction...
       </h1>
       <div className="flex w-full max-w-3xl flex-col-reverse items-center justify-center gap-8 md:flex-row md:gap-0">
