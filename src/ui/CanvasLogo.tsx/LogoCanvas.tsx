@@ -36,7 +36,7 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
   const [simulation, setSimulation] =
     useState<Simulation<SimulationNode, any>>();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const requestIdRef = useRef<number>();
+  const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -83,15 +83,15 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
         maxRangePerRadius,
         simulation,
       );
-      requestIdRef.current = requestAnimationFrame(drawFrame);
     }
-    drawFrame();
+
+    intervalIdRef.current = setInterval(drawFrame, 1000 / 60);
 
     function resizeHandler() {
       if (!resizeCanvasToDisplaySize(canvas, params.square)) return;
 
-      if (requestIdRef.current) {
-        cancelAnimationFrame(requestIdRef.current);
+      if (intervalIdRef.current) {
+        clearInterval(intervalIdRef.current);
       }
       setSimulation(undefined);
     }
