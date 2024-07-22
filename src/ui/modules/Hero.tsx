@@ -31,6 +31,8 @@ export default function Hero({
   alignItems: React.CSSProperties['alignItems'];
 }>) {
   const hasImage = !!bgImage?.asset || enableOrbs;
+  const backgroundColor = hasImage && orbBackground?.value?.slice(0, 7);
+  const fillColor = orbFill?.value?.slice(0, 7);
 
   return (
     <section
@@ -38,6 +40,7 @@ export default function Hero({
         hasImage &&
           'grid overflow-hidden bg-ink text-canvas *:col-span-full *:row-span-full',
       )}
+      style={{ backgroundColor }}
     >
       {!enableOrbs && bgImage?.asset && (
         <picture>
@@ -51,10 +54,10 @@ export default function Hero({
         </picture>
       )}
       {enableOrbs && (
-        <div className="size-full max-h-fold object-cover">
+        <div className="mx-auto size-full max-h-fold max-w-7xl object-cover">
           <LogoCanvas
-            fillColor={orbFill?.value?.slice(0, 7) ?? 'transparent'}
-            backgroundColor={orbBackground?.value?.slice(0, 7) ?? 'transparent'}
+            fillColor={fillColor ?? 'transparent'}
+            backgroundColor={backgroundColor ?? 'transparent'}
             square
           />
         </div>
