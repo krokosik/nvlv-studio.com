@@ -9,25 +9,18 @@ export interface SimulationNode extends SimulationNodeDatum {
 
 export const NUM_ORBS = 5;
 
-export function initSimulation(
-  gasDensity: number,
-  orbRadius: number,
-  gasRadius: number,
-  temperature: number,
-  width: number,
-  height: number,
-) {
-  return forceSimulation(
-    initOrbs(
-      NUM_ORBS,
-      gasDensity,
-      orbRadius,
-      gasRadius,
-      temperature,
-      width,
-      height,
-    ),
-  )
+export function initSimulation(params: {
+  gasDensity: number;
+  orbRadiiInDim: number;
+  temperature: number;
+  width: number;
+  height: number;
+}) {
+  const { width, height, orbRadiiInDim } = params;
+  const orbRadius = Math.min(width, height) / orbRadiiInDim;
+  const gasRadius = Math.max(1, Math.sqrt(orbRadius) / 2);
+
+  return forceSimulation(initOrbs({ ...params, orbRadius, gasRadius }))
     .alphaDecay(0)
     .velocityDecay(0)
     .force(
@@ -95,22 +88,37 @@ export function resizeCanvasToDisplaySize(
 
 export function draw(
   ctx: CanvasRenderingContext2D,
-  numOrbs: number,
-  orbRadius: number,
-  colors: { background: string; fill: string },
-  maxLinkThicknessPerRadius: number,
-  maxRangePerRadius: number,
+  params: {
+    numOrbs?: number;
+    gasDensity: number;
+    orbRadiiInDim: number;
+    maxLinkThicknessPerRadius: number;
+    maxRangePerRadius: number;
+    temperature: number;
+    width: number;
+    height: number;
+    backgroundColor: string;
+    fillColor: string;
+  },
   simulation?: Simulation<SimulationNode, any> | undefined,
 ) {
   const nodes = simulation?.nodes();
   if (!nodes) {
     return;
   }
-  const { background, fill } = colors;
-  ctx.fillStyle = background;
+  const {
+    numOrbs = NUM_ORBS,
+    backgroundColor,
+    fillColor,
+    maxLinkThicknessPerRadius,
+    maxRangePerRadius,
+  } = params;
+  const orbRadius =
+    Math.min(params.width, params.height) / params.orbRadiiInDim;
+  ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-  ctx.fillStyle = fill;
+  ctx.fillStyle = fillColor;
   for (const node of nodes.slice(0, numOrbs)) {
     if (node.type === 'orb') {
       ctx.beginPath();
@@ -202,21 +210,30 @@ export function draw(
       ctx.quadraticCurveTo(h4.x, h4.y, mid2.x, mid2.y);
       ctx.quadraticCurveTo(h2.x, h2.y, p2.x, p2.y);
       ctx.closePath();
-      ctx.fillStyle = fill;
+      ctx.fillStyle = fillColor;
       ctx.fill();
     }
   }
 }
 
-export function initOrbs(
-  numOrbs: number,
-  gasDensity: number,
-  orbRadius: number,
-  gasRadius: number,
-  temperature: number,
-  width: number,
-  height: number,
-): SimulationNode[] {
+export function initOrbs(params: {
+  numOrbs?: number;
+  gasDensity: number;
+  orbRadius: number;
+  gasRadius: number;
+  temperature: number;
+  width: number;
+  height: number;
+}): SimulationNode[] {
+  const {
+    numOrbs = NUM_ORBS,
+    gasDensity,
+    orbRadius,
+    gasRadius,
+    temperature,
+    width,
+    height,
+  } = params;
   const nodes: SimulationNode[] = [];
 
   for (let i = 0; i < numOrbs; i++) {
