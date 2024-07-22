@@ -1,13 +1,12 @@
 'use client';
-import { Simulation } from 'd3-force';
-import { useEffect, useRef, useState } from 'react';
+import { useDebounceCallback } from '@react-hook/debounce';
+import useResizeObserver from '@react-hook/resize-observer';
+import { useCallback, useRef } from 'react';
 
 import {
   draw,
   initSimulation,
-  NUM_ORBS,
   resizeCanvasToDisplaySize,
-  SimulationNode,
 } from './canvas.utils';
 
 export interface SimulationParams {
@@ -33,12 +32,14 @@ const defaultParams: SimulationParams = {
 
 export default function LogoCanvas(props: Partial<SimulationParams>) {
   const params = { ...defaultParams, ...props };
-  const [simulation, setSimulation] =
-    useState<Simulation<SimulationNode, any>>();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
+  const setup = useCallback(() => {
+    if (intervalIdRef.current) {
+      clearInterval(intervalIdRef.current);
+    }
+
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
@@ -49,58 +50,18 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
 
     const { width, height } = canvas;
 
-    const orbRadius = Math.min(width, height) / params.orbRadiiInDim;
-    const gasRadius = Math.max(1, Math.sqrt(orbRadius) / 2);
-    const {
-      backgroundColor,
-      fillColor,
-      gasDensity,
-      temperature,
-      maxLinkThicknessPerRadius,
-      maxRangePerRadius,
-    } = params;
+    const simulation = initSimulation({ ...params, width, height });
 
-    setSimulation(
-      initSimulation(
-        gasDensity,
-        orbRadius,
-        gasRadius,
-        temperature,
-        width,
-        height,
-      ),
-    );
-
-    function drawFrame() {
+    intervalIdRef.current = setInterval(() => {
       if (!ctx || !simulation) return;
       simulation?.tick();
-      draw(
-        ctx,
-        NUM_ORBS,
-        orbRadius,
-        { background: backgroundColor, fill: fillColor },
-        maxLinkThicknessPerRadius,
-        maxRangePerRadius,
-        simulation,
-      );
-    }
+      draw(ctx, { ...params, width, height }, simulation);
+    }, 1000 / 60);
+  }, [params, canvasRef.current]);
 
-    intervalIdRef.current = setInterval(drawFrame, 1000 / 60);
+  const setupDebounced = useDebounceCallback(setup, 200, true);
 
-    function resizeHandler() {
-      if (!resizeCanvasToDisplaySize(canvas, params.square)) return;
-
-      if (intervalIdRef.current) {
-        clearInterval(intervalIdRef.current);
-      }
-      setSimulation(undefined);
-    }
-    window.addEventListener('resize', resizeHandler);
-
-    return () => {
-      window.removeEventListener('resize', resizeHandler);
-    };
-  }, [!simulation]);
+  useResizeObserver(canvasRef, setupDebounced);
 
   return <canvas ref={canvasRef} className="h-full w-full object-cover" />;
 }

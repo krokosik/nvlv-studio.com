@@ -14,6 +14,8 @@
     "@next/third-parties": "^14.2.5",
     "@portabletext/react": "^3.1.0",
     "@portabletext/to-html": "^2.0.13",
+    "@react-hook/debounce": "^4.0.0",
+    "@react-hook/resize-observer": "^2.0.1",
     "@sanity/code-input": "^4.1.4",
     "@sanity/dashboard": "^4.0.0",
     "@sanity/image-url": "^1.0.2",
