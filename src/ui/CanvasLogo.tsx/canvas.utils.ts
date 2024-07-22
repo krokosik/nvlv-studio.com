@@ -236,11 +236,27 @@ export function initOrbs(params: {
   } = params;
   const nodes: SimulationNode[] = [];
 
+  const xRange = [orbRadius, width - orbRadius];
+  const yRange = [orbRadius, height - orbRadius];
+
   for (let i = 0; i < numOrbs; i++) {
+    let x: number, y: number;
+    while (true) {
+      x = random(xRange[0], xRange[1]);
+      y = random(yRange[0], yRange[1]);
+      let valid = true;
+      for (const node of nodes) {
+        if (Math.hypot(node.x! - x, node.y! - y) < orbRadius * 2) {
+          valid = false;
+          break;
+        }
+      }
+      if (valid) break;
+    }
     nodes.push({
       type: 'orb',
-      x: random(orbRadius * 1.5, width - orbRadius * 1.5),
-      y: random(orbRadius * 1.5, height - orbRadius * 1.5),
+      x,
+      y,
       vx: 0,
       vy: 0,
       r: orbRadius,
