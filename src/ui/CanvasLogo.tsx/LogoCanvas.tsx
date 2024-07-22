@@ -36,14 +36,12 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
   const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const setup = useCallback(() => {
-    if (intervalIdRef.current) {
-      clearInterval(intervalIdRef.current);
-    }
-
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    resizeCanvasToDisplaySize(canvas, params.square);
+    const needsResize = resizeCanvasToDisplaySize(canvas, params.square);
+
+    if (!needsResize) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -51,6 +49,10 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
     const { width, height } = canvas;
 
     const simulation = initSimulation({ ...params, width, height });
+
+    if (intervalIdRef.current) {
+      clearInterval(intervalIdRef.current);
+    }
 
     intervalIdRef.current = setInterval(() => {
       if (!ctx || !simulation) return;
