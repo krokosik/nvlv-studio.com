@@ -61,7 +61,7 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
     }, 1000 / 60);
   }, [params, ref.current]);
 
-  const setupDebounced = useDebounceCallback(setup, 200, true);
+  const setupDebounced = useDebounceCallback(setup, 500, true);
 
   useResizeObserver({ ref, onResize: setupDebounced });
 
