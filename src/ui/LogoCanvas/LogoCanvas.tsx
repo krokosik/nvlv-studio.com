@@ -1,6 +1,6 @@
 'use client';
 import { useDebounceCallback } from '@react-hook/debounce';
-import useResizeObserver from '@react-hook/resize-observer';
+import useResizeObserver from 'use-resize-observer';
 import { useCallback, useRef } from 'react';
 
 import {
@@ -32,13 +32,13 @@ const defaultParams: SimulationParams = {
 
 export default function LogoCanvas(props: Partial<SimulationParams>) {
   const params = { ...defaultParams, ...props };
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ref = useRef<HTMLCanvasElement>(null);
   const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const setup = useCallback(() => {
-    if (!canvasRef.current) return;
+    if (!ref.current) return;
 
-    const canvas = canvasRef.current;
+    const canvas = ref.current;
     const needsResize = resizeCanvasToDisplaySize(canvas, params.square);
 
     if (!needsResize) return;
@@ -59,11 +59,11 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
       simulation?.tick();
       draw(ctx, { ...params, width, height }, simulation);
     }, 1000 / 60);
-  }, [params, canvasRef.current]);
+  }, [params, ref.current]);
 
   const setupDebounced = useDebounceCallback(setup, 200, true);
 
-  useResizeObserver(canvasRef, setupDebounced);
+  useResizeObserver({ ref, onResize: setupDebounced });
 
-  return <canvas ref={canvasRef} className="h-full w-full object-cover" />;
+  return <canvas ref={ref} className="h-full w-full object-cover" />;
 }

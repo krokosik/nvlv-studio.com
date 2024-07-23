@@ -5,7 +5,7 @@ import Pretitle from '@/ui/Pretitle';
 import { stegaClean } from '@sanity/client/stega';
 import CustomPortableText from './CustomPortableText';
 import css from './Hero.module.css';
-import LogoCanvas from '../CanvasLogo.tsx/LogoCanvas';
+import LogoCanvas from '../LogoCanvas/LogoCanvas';
 
 export default function Hero({
   pretitle,
