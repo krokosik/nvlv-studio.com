@@ -65,5 +65,5 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
 
   useResizeObserver({ ref, onResize: setupDebounced });
 
-  return <canvas ref={ref} className="h-full w-full object-cover" />;
+  return <canvas ref={ref} className="size-full object-cover" />;
 }
