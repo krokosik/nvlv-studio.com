@@ -3,6 +3,7 @@ import {
   PortableTextMarkComponentProps,
   PortableTextProps,
 } from 'next-sanity';
+import { stegaClean } from '@sanity/client/stega';
 
 export default function CustomPortableText({
   components,
@@ -16,7 +17,7 @@ export default function CustomPortableText({
           textColor: ({ children, value }: PortableTextMarkComponentProps) => (
             <span
               style={{
-                color: (value?.value as string | undefined)?.slice(0, 7),
+                color: stegaClean(value?.value),
               }}
             >
               {children}
@@ -28,10 +29,7 @@ export default function CustomPortableText({
           }: PortableTextMarkComponentProps) => (
             <span
               style={{
-                backgroundColor: (value?.value as string | undefined)?.slice(
-                  0,
-                  7,
-                ),
+                backgroundColor: stegaClean(value?.value),
               }}
             >
               {children}

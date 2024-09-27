@@ -31,8 +31,8 @@ export default function Hero({
   alignItems: React.CSSProperties['alignItems'];
 }>) {
   const hasImage = !!bgImage?.asset || enableOrbs;
-  const backgroundColor = hasImage && orbBackground?.value?.slice(0, 7);
-  const fillColor = orbFill?.value?.slice(0, 7);
+  const backgroundColor = hasImage && stegaClean(orbBackground?.value);
+  const fillColor = stegaClean(orbFill?.value);
 
   return (
     <section
@@ -67,7 +67,7 @@ export default function Hero({
         <div className="section flex w-full flex-col">
           <div
             className={cn(
-              'richtext relative isolate max-w-xl [&_:is(h1,h2)]:text-balance',
+              'richtext relative max-w-xl [&_:is(h1,h2)]:text-balance',
               bgImage?.asset && 'text-shadow',
               hasImage && css.txt,
               {
