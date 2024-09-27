@@ -1,13 +1,12 @@
 // import { GoogleTagManager } from '@next/third-parties/google'
-import type { Metadata } from 'next';
-import SkipToContent from '@/ui/SkipToContent';
+import '@/styles/app.css';
 import Announcement from '@/ui/Announcement';
-import Header from '@/ui/header';
 import Footer from '@/ui/footer';
+import Header from '@/ui/header';
+import SkipToContent from '@/ui/SkipToContent';
+import VisualEditingControls from '@/ui/VisualEditingControls';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import VisualEditingControls from '@/ui/VisualEditingControls';
-import '@/styles/app.css';
 import localFont from 'next/font/local';
 
 const supplySans = localFont({
@@ -24,24 +23,6 @@ const supplySans = localFont({
     },
   ],
 });
-
-export const metadata: Metadata = {
-  title: 'NVLV Studio - Creative Agency',
-  description:
-    "Portfolio and marketing website of NVLV Studio. We're more than just a creative agency - we're visionaries at the intersection of digital innovation and tangible reality. Our interdisciplinary approach is dedicated to crafting bold and interactive experiences that blur the boundaries between the digital and physical realms.",
-  keywords: [
-    'creative agency',
-    'digital innovation',
-    'portfolio',
-    'marketing',
-    'visionaries',
-    'interdisciplinary',
-    'bold',
-    'interactive experiences',
-    'digital',
-    'physical',
-  ],
-};
 
 export default async function RootLayout({
   children,
