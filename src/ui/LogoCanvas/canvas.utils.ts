@@ -115,6 +115,7 @@ export function draw(
   } = params;
   const orbRadius =
     Math.min(params.width, params.height) / params.orbRadiiInDim;
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -122,7 +123,7 @@ export function draw(
   for (const node of nodes.slice(0, numOrbs)) {
     if (node.type === 'orb') {
       ctx.beginPath();
-      ctx.arc(node.x!, node.y!, node.r, 0, 2 * Math.PI);
+      ctx.arc(node.x!, node.y!, node.r + 0.3, 0, 2 * Math.PI);
       ctx.fill();
     }
   }
@@ -206,9 +207,10 @@ export function draw(
       ctx.moveTo(p1.x, p1.y);
       ctx.quadraticCurveTo(h1.x, h1.y, mid1.x, mid1.y);
       ctx.quadraticCurveTo(h3.x, h3.y, p3.x, p3.y);
-      ctx.lineTo(p4.x, p4.y);
+      ctx.arc(target.x, target.y, orbRadius, angle3, angle4);
       ctx.quadraticCurveTo(h4.x, h4.y, mid2.x, mid2.y);
       ctx.quadraticCurveTo(h2.x, h2.y, p2.x, p2.y);
+      ctx.arc(source.x, source.y, orbRadius, angle2, angle1);
       ctx.closePath();
       ctx.fillStyle = fillColor;
       ctx.fill();
