@@ -15,6 +15,7 @@ import StatList from './StatList';
 import StepList from './StepList';
 import TestimonialList from './TestimonialList';
 import TestimonialFeatured from './TestimonialFeatured';
+import Spacer from './Spacer';
 
 export default function Modules({
   modules,
@@ -55,6 +56,8 @@ export default function Modules({
             return <PricingList {...module} key={module._key} />;
           case 'richtext-module':
             return <RichtextModule {...module} key={module._key} />;
+          case 'spacer':
+            return <Spacer {...module} key={module._key} />;
           case 'stat-list':
             return <StatList {...module} key={module._key} />;
           case 'step-list':

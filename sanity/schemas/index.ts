@@ -36,6 +36,7 @@ import statList from './modules/stat-list';
 import stepList from './modules/step-list';
 import testimonialFeatured from './modules/testimonial.featured';
 import testimonialList from './modules/testimonial-list';
+import spacer from './modules/spacer';
 
 export const schemaTypes = [
   // documents
@@ -72,6 +73,7 @@ export const schemaTypes = [
   logoList,
   pricingList,
   richtextModule,
+  spacer,
   statList,
   stepList,
   testimonialFeatured,
