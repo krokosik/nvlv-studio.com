@@ -31,6 +31,7 @@ export default defineType({
         { type: 'logo-list' },
         { type: 'pricing-list' },
         { type: 'richtext-module' },
+        { type: 'spacer' },
         { type: 'stat-list' },
         { type: 'step-list' },
         { type: 'testimonial-list' },
