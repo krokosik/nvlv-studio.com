@@ -26,8 +26,6 @@ export default defineType({
         { type: 'custom-html' },
         { type: 'flag-list' },
         { type: 'hero' },
-        { type: 'hero.saas' },
-        { type: 'hero.split' },
         { type: 'logo-list' },
         { type: 'pricing-list' },
         { type: 'richtext-module' },

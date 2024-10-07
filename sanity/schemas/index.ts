@@ -27,8 +27,6 @@ import creativeModule from './modules/creative';
 import customHtml from './modules/custom-html';
 import flagList from './modules/flag-list';
 import hero from './modules/hero';
-import heroSaas from './modules/hero.saas';
-import HeroSplit from './modules/hero.split';
 import logoList from './modules/logo-list';
 import pricingList from './modules/pricing-list';
 import richtextModule from './modules/richtext-module';
@@ -68,8 +66,6 @@ export const schemaTypes = [
   customHtml,
   flagList,
   hero,
-  heroSaas,
-  HeroSplit,
   logoList,
   pricingList,
   richtextModule,
