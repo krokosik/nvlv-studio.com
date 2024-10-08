@@ -26,6 +26,7 @@ export default defineType({
         { type: 'custom-html' },
         { type: 'flag-list' },
         { type: 'hero' },
+        { type: 'hero.largetext' },
         { type: 'logo-list' },
         { type: 'pricing-list' },
         { type: 'richtext-module' },

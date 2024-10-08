@@ -35,6 +35,8 @@ import stepList from './modules/step-list';
 import testimonialFeatured from './modules/testimonial.featured';
 import testimonialList from './modules/testimonial-list';
 import spacer from './modules/spacer';
+import heroLine from './objects/hero.line';
+import heroLargetext from './modules/hero.largetext';
 
 export const schemaTypes = [
   // documents
@@ -55,6 +57,7 @@ export const schemaTypes = [
   link,
   linkList,
   metadata,
+  heroLine,
 
   // modules
   accordionList,
@@ -66,6 +69,7 @@ export const schemaTypes = [
   customHtml,
   flagList,
   hero,
+  heroLargetext,
   logoList,
   pricingList,
   richtextModule,
