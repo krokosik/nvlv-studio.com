@@ -4,6 +4,7 @@ import CTA from './CTA';
 export default function CTAList({
   ctas,
   className,
+  style,
 }: React.HTMLAttributes<HTMLParagraphElement> & {
   ctas?: Sanity.CTA[];
 }) {

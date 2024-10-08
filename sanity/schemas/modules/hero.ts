@@ -21,6 +21,12 @@ export default defineType({
   fieldsets: [alignmentFieldset],
   fields: [
     defineField({
+      name: 'textColor',
+      title: 'Text color',
+      type: 'simplerColor',
+      group: 'content',
+    }),
+    defineField({
       name: 'pretitle',
       type: 'string',
       group: 'content',
