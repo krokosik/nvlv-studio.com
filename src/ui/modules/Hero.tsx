@@ -8,6 +8,7 @@ import LogoCanvas from '../LogoCanvas/LogoCanvas';
 
 export default function Hero({
   pretitle,
+  textColor,
   content,
   ctas,
   enableOrbs,
@@ -19,6 +20,7 @@ export default function Hero({
   alignItems,
 }: Partial<{
   pretitle: string;
+  textColor: any;
   content: any;
   ctas: Sanity.CTA[];
   enableOrbs: boolean;
@@ -32,12 +34,14 @@ export default function Hero({
   const hasImage = !!bgImage?.asset || enableOrbs;
   const backgroundColor = hasImage && stegaClean(orbBackground?.value);
   const fillColor = stegaClean(orbFill?.value);
+  const textColorValue = stegaClean(textColor?.value ?? 'canvas');
 
   return (
     <section
       className={cn(
         hasImage &&
-          'grid overflow-hidden bg-ink text-canvas *:col-span-full *:row-span-full',
+          'grid overflow-hidden bg-ink *:col-span-full *:row-span-full',
+        `text-${textColorValue}`,
       )}
       style={{ backgroundColor }}
     >
@@ -53,7 +57,7 @@ export default function Hero({
         </picture>
       )}
       {enableOrbs && (
-        <div className="mx-auto size-full max-h-fold max-w-7xl object-cover">
+        <div className="mx-auto size-full max-h-fold max-w-5xl object-cover">
           <LogoCanvas
             fillColor={fillColor ?? 'transparent'}
             backgroundColor={backgroundColor ?? 'transparent'}
@@ -81,7 +85,10 @@ export default function Hero({
             )}
             style={{ textAlign: stegaClean(textAlign) }}
           >
-            <Pretitle className={cn(hasImage && 'text-canvas/70')}>
+            <Pretitle
+              className="text-7xl sm:text-9xl"
+              style={{ color: textColorValue }}
+            >
               {pretitle}
             </Pretitle>
             <CustomPortableText value={content} />

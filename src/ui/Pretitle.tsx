@@ -4,11 +4,12 @@ import { stegaClean } from '@sanity/client/stega';
 export default function Pretitle({
   className,
   children,
+  style,
 }: React.HTMLProps<HTMLParagraphElement>) {
   if (!children) return null;
 
   return (
-    <p className={cn('technical text-accent/60', className)}>
+    <p className={cn('technical', className)} style={style}>
       {stegaClean(children)}
     </p>
   );
