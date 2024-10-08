@@ -40,12 +40,6 @@ export default function CreativeModule({
   return (
     <section>
       <div className="section space-y-8">
-        {intro && (
-          <header className="richtext mx-auto max-w-xl text-balance text-center">
-            <CustomPortableText value={intro} />
-          </header>
-        )}
-
         <div
           className={cn(
             'grid items-center md:grid-cols-[repeat(var(--col,1),minmax(0px,1fr))]',

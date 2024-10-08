@@ -33,6 +33,7 @@
     text-transform: uppercase;
     font-weight: 200;
     letter-spacing: 0.04em;
+    text-align: justify;
   }
 
   label {
