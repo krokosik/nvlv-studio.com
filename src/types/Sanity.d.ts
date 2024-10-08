@@ -93,6 +93,12 @@ declare global {
       style?: string;
     };
 
+    type HeroLine = {
+      text?: string;
+      iconLeft?: Image;
+      iconRight?: Image;
+    };
+
     type Image = SanityImageObject &
       Partial<{
         alt: string;

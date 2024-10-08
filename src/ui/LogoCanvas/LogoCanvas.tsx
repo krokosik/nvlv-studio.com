@@ -8,6 +8,7 @@ import {
   initSimulation,
   resizeCanvasToDisplaySize,
 } from './canvas.utils';
+import { cn } from '@/lib/utils';
 
 export interface SimulationParams {
   orbRadiiInDim: number;
@@ -18,6 +19,8 @@ export interface SimulationParams {
   backgroundColor: string;
   fillColor: string;
   square?: boolean;
+  globalAlpha?: number;
+  objectFit?: 'contain' | 'cover';
 }
 
 const defaultParams: SimulationParams = {
@@ -28,6 +31,9 @@ const defaultParams: SimulationParams = {
   maxRangePerRadius: 3 / 2,
   backgroundColor: '#000',
   fillColor: '#fff',
+  square: false,
+  globalAlpha: 1,
+  objectFit: 'cover',
 };
 
 export default function LogoCanvas(props: Partial<SimulationParams>) {
@@ -45,6 +51,8 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    ctx.globalAlpha = params.globalAlpha ?? 1;
 
     const { width, height } = canvas;
 
@@ -65,5 +73,10 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
 
   useResizeObserver({ ref, onResize: setupDebounced });
 
-  return <canvas ref={ref} className="size-full object-cover" />;
+  return (
+    <canvas
+      ref={ref}
+      className={cn('size-full', `object-${params.objectFit}`)}
+    />
+  );
 }

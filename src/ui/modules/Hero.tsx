@@ -4,7 +4,6 @@ import Img, { Source } from '@/ui/Img';
 import Pretitle from '@/ui/Pretitle';
 import { stegaClean } from '@sanity/client/stega';
 import CustomPortableText from './CustomPortableText';
-import css from './Hero.module.css';
 import LogoCanvas from '../LogoCanvas/LogoCanvas';
 
 export default function Hero({
@@ -69,7 +68,6 @@ export default function Hero({
             className={cn(
               'richtext relative max-w-xl [&_:is(h1,h2)]:text-balance',
               bgImage?.asset && 'text-shadow',
-              hasImage && css.txt,
               {
                 'mb-8': stegaClean(alignItems) === 'start',
                 'my-auto': stegaClean(alignItems) === 'center',

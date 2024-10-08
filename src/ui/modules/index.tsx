@@ -14,6 +14,7 @@ import StepList from './StepList';
 import TestimonialList from './TestimonialList';
 import TestimonialFeatured from './TestimonialFeatured';
 import Spacer from './Spacer';
+import HeroLargeText from './HeroLargeText';
 
 export default function Modules({
   modules,
@@ -44,6 +45,8 @@ export default function Modules({
             return <FlagList {...module} key={module._key} />;
           case 'hero':
             return <Hero {...module} key={module._key} />;
+          case 'hero.largetext':
+            return <HeroLargeText {...module} key={module._key} />;
           case 'logo-list':
             return <LogoList {...module} key={module._key} />;
           case 'pricing-list':
