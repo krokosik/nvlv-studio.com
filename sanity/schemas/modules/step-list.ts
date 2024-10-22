@@ -11,7 +11,7 @@ export default defineType({
     defineField({
       name: 'intro',
       type: 'array',
-      of: [{ type: 'block' }],
+      of: [{ type: 'custom-block' }],
     }),
     defineField({
       name: 'steps',
@@ -24,7 +24,7 @@ export default defineType({
             defineField({
               name: 'content',
               type: 'array',
-              of: [{ type: 'block' }],
+              of: [{ type: 'custom-block' }],
             }),
           ],
           preview: {

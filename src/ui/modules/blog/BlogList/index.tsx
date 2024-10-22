@@ -1,9 +1,9 @@
 import { fetchSanity, groq } from '@/lib/sanity/fetch';
-import { PortableText } from '@portabletext/react';
-import Filtering from '@/ui/modules/blog/BlogList/Filtering';
-import List from './List';
-import { stegaClean } from '@sanity/client/stega';
 import { cn } from '@/lib/utils';
+import Filtering from '@/ui/modules/blog/BlogList/Filtering';
+import { stegaClean } from '@sanity/client/stega';
+import List from './List';
+import CustomPortableText from '../../CustomPortableText';
 
 export default async function BlogList({
   intro,
@@ -33,7 +33,7 @@ export default async function BlogList({
     <section className="section space-y-8">
       {intro && (
         <header className="richtext">
-          <PortableText value={intro} />
+          <CustomPortableText value={intro} />
         </header>
       )}
 

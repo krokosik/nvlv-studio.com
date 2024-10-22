@@ -7,6 +7,7 @@ export default defineType({
   groups: [
     { name: 'general', title: 'General', default: true },
     { name: 'navigation', title: 'Navigation' },
+    { name: 'theme', title: 'Theme' },
   ],
   fields: [
     defineField({
@@ -43,7 +44,8 @@ export default defineType({
       type: 'array',
       of: [
         {
-          type: 'block',
+          type: 'custom-block',
+          // @ts-ignore
           styles: [{ title: 'Normal', value: 'normal' }],
         },
       ],
@@ -74,6 +76,42 @@ export default defineType({
       type: 'image',
       group: 'general',
     }),
+    // defineField({
+    //   title: 'Primary color',
+    //   name: 'primaryColor',
+    //   type: 'simplerColor',
+    //   group: 'theme',
+    // }),
+    // defineField({
+    //   title: 'Secondary color',
+    //   name: 'secondaryColor',
+    //   type: 'simplerColor',
+    //   group: 'theme',
+    // }),
+    // defineField({
+    //   title: 'Accent color',
+    //   name: 'accentColor',
+    //   type: 'simplerColor',
+    //   group: 'theme',
+    // }),
+    // defineField({
+    //   title: 'Background color',
+    //   name: 'backgroundColor',
+    //   type: 'simplerColor',
+    //   group: 'theme',
+    // }),
+    // defineField({
+    //   title: 'Text color',
+    //   name: 'textColor',
+    //   type: 'simplerColor',
+    //   group: 'theme',
+    // }),
+    // defineField({
+    //   title: 'Link color',
+    //   name: 'linkColor',
+    //   type: 'simplerColor',
+    //   group: 'theme',
+    // }),
   ],
   preview: {
     prepare: () => ({

@@ -1,19 +1,22 @@
-import { defineConfig } from 'sanity';
-import { BASE_URL, projectId } from './src/env';
-import { structureTool } from 'sanity/structure';
-import structure from './src/structure';
-import { locations } from './src/presentation';
-import { presentationTool } from 'sanity/presentation';
+import { codeInput } from '@sanity/code-input';
 import {
   dashboardTool,
   projectInfoWidget,
   projectUsersWidget,
 } from '@sanity/dashboard';
-import { vercelWidget } from 'sanity-plugin-dashboard-widget-vercel';
 import { visionTool } from '@sanity/vision';
-import { codeInput } from '@sanity/code-input';
-import { schemaTypes } from './schemas';
+import { defineConfig } from 'sanity';
+import { vercelWidget } from 'sanity-plugin-dashboard-widget-vercel';
+import { simplerColorInput } from 'sanity-plugin-simpler-color-input';
+import { presentationTool } from 'sanity/presentation';
+import { structureTool } from 'sanity/structure';
 import Icon from './Icon';
+import { schemaTypes } from './schemas';
+import { BASE_URL, projectId } from './src/env';
+import { locations } from './src/presentation';
+import structure from './src/structure';
+// import { theme } from 'https://themer.sanity.build/api/hues?default=4a47af;200;darkest:000000&primary=ec6c4f;darkest:111111&transparent=d2d1d2;100&positive=724fb7;300&caution=e7a138;200&critical=e06978;300&lightest=f5e8c9&darkest=111';
+import { media } from 'sanity-plugin-media';
 
 const singletonTypes = ['site'];
 
@@ -25,6 +28,8 @@ export default defineConfig({
   projectId,
   dataset: 'production',
   basePath: '/admin',
+
+  // theme,
 
   plugins: [
     structureTool({
@@ -46,6 +51,23 @@ export default defineConfig({
     }),
     visionTool({ title: 'GROQ' }),
     codeInput(),
+    simplerColorInput({
+      // Note: These are all optional
+      defaultColorFormat: 'hex',
+      defaultColorList: [
+        { label: 'Orange', value: '#FC634B' },
+        { label: 'Violet', value: '#4B47D6' },
+        { label: 'Beige', value: '#F9E8C6' },
+        { label: 'Black', value: '#000000' },
+        { label: 'White', value: '#FFFFFF' },
+        { label: 'Alternative Violet', value: '#784DBD' },
+        { label: 'Alternative Orange', value: '#F39D00' },
+        { label: 'Alternative Pink', value: '#F16074' },
+        { label: 'Custom...', value: 'custom' },
+      ],
+      enableSearch: true,
+    }),
+    media(),
   ],
 
   scheduledPublishing: {
@@ -53,6 +75,7 @@ export default defineConfig({
   },
 
   schema: {
+    // @ts-ignore defineArrayMember seems to not add the name property which results in an error
     types: schemaTypes,
     templates: (templates) =>
       templates.filter(

@@ -1,7 +1,7 @@
-import { PortableText } from 'next-sanity';
-import Pretitle from '../Pretitle';
 import { cn } from '@/lib/utils';
 import CTAList from '../CTAList';
+import Pretitle from '../Pretitle';
+import CustomPortableText from './CustomPortableText';
 
 export default function PricingList({
   intro,
@@ -14,7 +14,7 @@ export default function PricingList({
     <section className="section space-y-8">
       {intro && (
         <header className="richtext text-center">
-          <PortableText value={intro} />
+          <CustomPortableText value={intro} />
         </header>
       )}
 
@@ -55,7 +55,7 @@ export default function PricingList({
             </dd>
 
             <dd className="richtext">
-              <PortableText value={tier.content} />
+              <CustomPortableText value={tier.content} />
             </dd>
           </div>
         ))}

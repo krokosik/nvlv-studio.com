@@ -19,6 +19,8 @@ const nextConfig = {
     ],
   },
 
+  experimental: { urlImports: ['https://themer.sanity.build/'] },
+
   async redirects() {
     return await client.fetch(groq`*[_type == 'redirect']{
 			source,

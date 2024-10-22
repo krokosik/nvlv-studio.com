@@ -11,9 +11,9 @@ export const textAlign: FieldDefinition = {
   type: 'string',
   options: {
     layout: 'radio',
-    list: ['left', 'center', 'right'],
+    list: ['left', 'center', 'right', 'justify'],
   },
-  initialValue: 'center',
+  initialValue: 'justify',
   group: 'options',
 };
 

@@ -6,8 +6,6 @@ import CreativeModule from './CreativeModule';
 import CustomHTML from './CustomHTML';
 import FlagList from './FlagList';
 import Hero from './Hero';
-import HeroSplit from './HeroSplit';
-import HeroSaaS from './HeroSaaS';
 import LogoList from './LogoList';
 import PricingList from './PricingList';
 import RichtextModule from './RichtextModule';
@@ -15,6 +13,8 @@ import StatList from './StatList';
 import StepList from './StepList';
 import TestimonialList from './TestimonialList';
 import TestimonialFeatured from './TestimonialFeatured';
+import Spacer from './Spacer';
+import HeroLargeText from './HeroLargeText';
 
 export default function Modules({
   modules,
@@ -45,16 +45,16 @@ export default function Modules({
             return <FlagList {...module} key={module._key} />;
           case 'hero':
             return <Hero {...module} key={module._key} />;
-          case 'hero.split':
-            return <HeroSplit {...module} key={module._key} />;
-          case 'hero.saas':
-            return <HeroSaaS {...module} key={module._key} />;
+          case 'hero.largetext':
+            return <HeroLargeText {...module} key={module._key} />;
           case 'logo-list':
             return <LogoList {...module} key={module._key} />;
           case 'pricing-list':
             return <PricingList {...module} key={module._key} />;
           case 'richtext-module':
             return <RichtextModule {...module} key={module._key} />;
+          case 'spacer':
+            return <Spacer {...module} key={module._key} />;
           case 'stat-list':
             return <StatList {...module} key={module._key} />;
           case 'step-list':
