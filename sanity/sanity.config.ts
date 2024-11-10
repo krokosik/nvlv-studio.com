@@ -12,7 +12,7 @@ import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
 import Icon from './Icon';
 import { schemaTypes } from './schemas';
-import { BASE_URL, projectId } from './src/env';
+import { BASE_URL, projectId, dataset } from './src/env';
 import { locations } from './src/presentation';
 import structure from './src/structure';
 // import { theme } from 'https://themer.sanity.build/api/hues?default=4a47af;200;darkest:000000&primary=ec6c4f;darkest:111111&transparent=d2d1d2;100&positive=724fb7;300&caution=e7a138;200&critical=e06978;300&lightest=f5e8c9&darkest=111';
@@ -26,7 +26,7 @@ export default defineConfig({
   icon: Icon,
 
   projectId,
-  dataset: 'production',
+  dataset,
   basePath: '/admin',
 
   // theme,
