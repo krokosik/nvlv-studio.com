@@ -15,6 +15,7 @@ import TestimonialList from './TestimonialList';
 import TestimonialFeatured from './TestimonialFeatured';
 import Spacer from './Spacer';
 import HeroLargeText from './HeroLargeText';
+import Project from './Project';
 
 export default function Modules({
   modules,
@@ -51,6 +52,8 @@ export default function Modules({
             return <LogoList {...module} key={module._key} />;
           case 'pricing-list':
             return <PricingList {...module} key={module._key} />;
+          case 'project':
+            return <Project {...module} key={module._key} />;
           case 'richtext-module':
             return <RichtextModule {...module} key={module._key} />;
           case 'spacer':

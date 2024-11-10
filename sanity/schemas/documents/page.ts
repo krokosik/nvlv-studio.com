@@ -29,6 +29,7 @@ export default defineType({
         { type: 'hero.largetext' },
         { type: 'logo-list' },
         { type: 'pricing-list' },
+        { type: 'project' },
         { type: 'richtext-module' },
         { type: 'spacer' },
         { type: 'stat-list' },

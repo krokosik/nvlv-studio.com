@@ -37,6 +37,9 @@ import testimonialList from './modules/testimonial-list';
 import spacer from './modules/spacer';
 import heroLine from './objects/hero.line';
 import heroLargetext from './modules/hero.largetext';
+import youtube from './objects/youtube';
+import gallery from './objects/gallery';
+import project from './modules/project';
 
 export const schemaTypes = [
   // documents
@@ -53,11 +56,13 @@ export const schemaTypes = [
 
   // objects
   cta,
+  gallery,
   uid,
   link,
   linkList,
   metadata,
   heroLine,
+  youtube,
 
   // modules
   accordionList,
@@ -72,6 +77,7 @@ export const schemaTypes = [
   heroLargetext,
   logoList,
   pricingList,
+  project,
   richtextModule,
   spacer,
   statList,

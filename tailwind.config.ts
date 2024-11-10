@@ -5,6 +5,12 @@ const config: Config = {
   content: ['./src/{app,ui}/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        32: 'repeat(32, minmax(0, 1fr))',
+      },
+      gridColumn: {
+        'span-22': 'span 22 / span 22',
+      },
       colors: {
         ink: '#fff',
         canvas: '#000',
