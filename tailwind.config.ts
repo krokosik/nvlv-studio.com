@@ -2,11 +2,12 @@ import plugin from 'tailwindcss/plugin';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: ['class'],
   content: ['./src/{app,ui}/**/*.{ts,tsx}'],
   theme: {
     extend: {
       gridTemplateColumns: {
-        32: 'repeat(32, minmax(0, 1fr))',
+        '32': 'repeat(32, minmax(0, 1fr))',
       },
       gridColumn: {
         'span-22': 'span 22 / span 22',
@@ -28,6 +29,7 @@ const config: Config = {
       addVariant('header-open', 'body:has(#header-open:checked) &');
       addVariant('header-closed', 'body:has(#header-open:not(:checked)) &');
     }),
+    require('tailwindcss-animate'),
   ],
   safelist: [{ pattern: /action.*/ }, 'ghost'],
 };

@@ -1,4 +1,13 @@
 import { stegaClean } from '@sanity/client/stega';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselDots,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '../components/ui/carousel';
+import Img from '../Img';
 
 export default function Project({
   title,
@@ -12,7 +21,7 @@ export default function Project({
   title: string;
   pretitle: string;
   description: string;
-  gallery: any;
+  gallery: { images: any[] };
   textColor: any;
   backgroundColor: any;
   accentColor: any;
@@ -25,19 +34,37 @@ export default function Project({
 
   return (
     <section
-      className="grid-cols-32 mb-[var(--header-height)] grid h-screen max-h-fold w-full grid-rows-3 px-20"
+      className="mb-[var(--header-height)] grid h-screen max-h-fold w-full grid-cols-32 grid-rows-3 px-20"
       style={{
         backgroundColor: colors.backgroundColor,
       }}
     >
-      <div className="col-span-full row-span-2 grid grid-cols-subgrid divide-x divide-black">
-        <div className="col-span-9"></div>
-        <div className="col-span-11 size-full"></div>
-        <div className="col-span-11 size-full"></div>
+      <div className="col-span-full row-span-2 grid h-full grid-cols-subgrid divide-x divide-black">
+        <div className="col-span-7"></div>
+        <div className="col-span-12 p-2">
+          <Carousel
+            opts={{
+              loop: true,
+              align: 'center',
+            }}
+          >
+            <CarouselContent className="items-center">
+              {gallery?.images.map((image) => (
+                <CarouselItem className="basis-2/3">
+                  <figure className="relative max-h-[58svh] w-full">
+                    <Img image={image} />
+                  </figure>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselDots />
+          </Carousel>
+        </div>
+        <div className="col-span-12 size-full"></div>
         <div className="col-span-1"></div>
       </div>
       <div className="col-span-full grid grid-cols-subgrid">
-        <div className="col-span-22 col-start-10 size-full"></div>
+        <div className="col-span-24 col-start-8 size-full"></div>
       </div>
     </section>
   );
