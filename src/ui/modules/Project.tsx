@@ -44,15 +44,10 @@ export default function Project({
       <div className="col-span-full row-span-2 grid h-full grid-cols-subgrid divide-x divide-black">
         <div className="col-span-7"></div>
         <div className="col-span-12 p-2">
-          <Carousel
-            opts={{
-              loop: true,
-              align: 'center',
-            }}
-          >
+          <Carousel opts={{ loop: true }}>
             <CarouselContent className="items-center">
               {gallery?.images.map((image) => (
-                <CarouselItem className="basis-2/3">
+                <CarouselItem key={image._key} className="basis-2/3">
                   <figure className="relative max-h-[58svh] w-full">
                     <Img image={image} />
                   </figure>
@@ -70,13 +65,14 @@ export default function Project({
         <div className="col-span-1" />
       </div>
       <div className="col-span-full grid grid-cols-subgrid grid-rows-3">
-        <div className="col-span-12 col-start-8 row-span-3 grid size-full grid-rows-subgrid">
-          <span style={{ color: colors.accentColor }}>//:</span>
-          <h3>
+        <div className="col-span-12 col-start-8 row-span-3 grid size-full grid-rows-subgrid text-6xl font-medium">
+          <span className="self-end" style={{ color: colors.accentColor }}>
+            //:
+          </span>
+          <h3 className="row-span-2">
             {title?.split(' ')[0]}
             <span style={{ color: colors.accentColor }}>:</span>
-          </h3>
-          <h3>
+            <br />
             {title?.split(' ')[1]}
             <span style={{ color: colors.accentColor }}>.01</span>
           </h3>
