@@ -12,6 +12,10 @@ const config: Config = {
       gridColumn: {
         'span-22': 'span 22 / span 22',
       },
+      gridColumnStart: {
+        20: '20',
+        21: '21',
+      },
       colors: {
         ink: '#fff',
         canvas: '#000',
