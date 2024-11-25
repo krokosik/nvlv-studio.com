@@ -1,13 +1,14 @@
+import { YouTubePlayer } from '@/ui/components/youtube';
 import { stegaClean } from '@sanity/client/stega';
+import clsx from 'clsx';
 import {
   Carousel,
   CarouselContent,
   CarouselDots,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '../components/ui/carousel';
 import Img from '../Img';
+import Pretitle from '../Pretitle';
 import CustomPortableText from './CustomPortableText';
 
 export default function Project({
@@ -47,9 +48,16 @@ export default function Project({
           <Carousel opts={{ loop: true }}>
             <CarouselContent className="items-center">
               {gallery?.images.map((image) => (
-                <CarouselItem key={image._key} className="basis-2/3">
+                <CarouselItem
+                  key={image._key}
+                  className={clsx(image._type !== 'youtube' && 'basis-2/3')}
+                >
                   <figure className="relative max-h-[58svh] w-full">
-                    <Img image={image} />
+                    {image._type === 'youtube' ? (
+                      <YouTubePlayer url={image.url} width="100%" />
+                    ) : (
+                      <Img image={image} />
+                    )}
                   </figure>
                 </CarouselItem>
               ))}
@@ -65,7 +73,7 @@ export default function Project({
         <div className="col-span-1" />
       </div>
       <div className="col-span-full grid grid-cols-subgrid grid-rows-3">
-        <div className="col-span-12 col-start-8 row-span-3 grid size-full grid-rows-subgrid text-6xl font-medium">
+        <div className="col-span-12 col-start-8 row-span-3 grid size-full grid-rows-subgrid text-6xl/[0.8] font-medium">
           <span className="self-end" style={{ color: colors.accentColor }}>
             //:
           </span>
@@ -77,8 +85,8 @@ export default function Project({
             <span style={{ color: colors.accentColor }}>.01</span>
           </h3>
         </div>
-        <div className="col-start-20 col-span-12 row-span-2 row-start-2">
-          {pretitle}
+        <div className="col-span-12 col-start-20 row-span-2 row-start-2">
+          <Pretitle style={{ color: colors.accentColor }}>{pretitle}</Pretitle>
         </div>
       </div>
     </section>
