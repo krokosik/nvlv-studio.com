@@ -31,8 +31,8 @@
     caret-color: theme('colors.accent');
     scroll-behavior: smooth;
     text-transform: uppercase;
-    font-weight: 200;
-    letter-spacing: 0.04em;
+    font-weight: 400;
+    letter-spacing: 0.04;
     text-align: justify;
   }
 
@@ -52,38 +52,30 @@
 @layer components {
   /* typography */
 
-  ._h {
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
 
   .h1 {
-    @apply _h text-3xl xl:text-4xl;
+    @apply text-3xl xl:text-4xl;
   }
 
   .h2 {
-    @apply _h text-2xl xl:text-3xl;
+    @apply text-2xl xl:text-3xl;
   }
 
   .h3 {
-    @apply _h text-xl xl:text-2xl;
+    @apply text-xl xl:text-2xl;
   }
 
   .h4 {
-    @apply _h text-lg xl:text-xl;
+    @apply text-lg xl:text-xl;
   }
 
-  .h5 {
-    @apply _h;
-  }
-
-  .h6 {
-    @apply _h;
+  .p,
+  p {
+    @apply text-3xl/[0.85];
   }
 
   .technical {
-    font-weight: 400;
+    font-weight: 200;
   }
 
   .text-shadow {
@@ -162,12 +154,8 @@
       @apply h4;
     }
 
-    & h5 {
-      @apply h5;
-    }
-
-    & h6 {
-      @apply h6;
+    & p {
+      @apply p;
     }
 
     & :is(ul, ol) {
