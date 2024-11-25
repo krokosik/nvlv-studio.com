@@ -1,4 +1,4 @@
-import { forceSimulation, Simulation, SimulationNodeDatum } from 'd3-force';
+import { forceSimulation, Simulation, SimulationNodeDatum } from 'd3-force-md';
 import d3ForceBounce from 'd3-force-bounce';
 import d3ForceSurface from 'd3-force-surface';
 

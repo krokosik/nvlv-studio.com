@@ -1,5 +1,51 @@
 /// <reference types="d3-force" />
 
+declare module 'd3-force-md' {
+  import d3Force, {
+    forceSimulation,
+    Simulation,
+    SimulationNodeDatum,
+    Force,
+    ForceCenter,
+    ForceCollide,
+    ForceLink,
+    ForceManyBody,
+    ForceRadial,
+    ForceX,
+    ForceY,
+    SimulationLinkDatum,
+    forceCenter,
+    forceCollide,
+    forceLink,
+    forceManyBody,
+    forceRadial,
+    forceX,
+    forceY,
+  } from 'd3-force';
+  export default d3Force;
+  export {
+    forceSimulation,
+    Simulation,
+    SimulationNodeDatum,
+    Force,
+    ForceCenter,
+    ForceCollide,
+    ForceLink,
+    ForceManyBody,
+    ForceRadial,
+    ForceX,
+    ForceY,
+    SimulationLinkDatum,
+    forceCenter,
+    forceCollide,
+    forceLink,
+    forceManyBody,
+    forceRadial,
+    forceX,
+    forceY,
+  };
+}
+
 declare module 'd3-force-surface' {
   // Define a type for a coordinate object
   interface Coordinate {
