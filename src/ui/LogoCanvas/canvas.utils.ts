@@ -2,6 +2,32 @@ import { forceSimulation, Simulation, SimulationNodeDatum } from 'd3-force-md';
 import d3ForceBounce from 'd3-force-bounce';
 import d3ForceSurface from 'd3-force-surface';
 
+export interface SimulationParams {
+  orbRadiiInDim: number;
+  gasDensity: number;
+  temperature: number;
+  maxLinkThicknessPerRadius: number;
+  maxRangePerRadius: number;
+  backgroundColor: string;
+  fillColor: string;
+  square?: boolean;
+  globalAlpha?: number;
+  objectFit?: 'contain' | 'cover';
+}
+
+export const defaultParams: SimulationParams = {
+  orbRadiiInDim: 20 / 3,
+  gasDensity: 0.0001,
+  temperature: 5,
+  maxLinkThicknessPerRadius: 0.5,
+  maxRangePerRadius: 3 / 2,
+  backgroundColor: '#000',
+  fillColor: '#fff',
+  square: false,
+  globalAlpha: 1,
+  objectFit: 'cover',
+};
+
 export interface SimulationNode extends SimulationNodeDatum {
   type: 'orb' | 'gas';
   r: number;
@@ -87,7 +113,7 @@ export function resizeCanvasToDisplaySize(
 }
 
 export function draw(
-  ctx: CanvasRenderingContext2D,
+  ctx: OffscreenCanvasRenderingContext2D,
   params: {
     numOrbs?: number;
     gasDensity: number;
@@ -123,7 +149,7 @@ export function draw(
   for (const node of nodes.slice(0, numOrbs)) {
     if (node.type === 'orb') {
       ctx.beginPath();
-      ctx.arc(node.x!, node.y!, node.r + 0.3, 0, 2 * Math.PI);
+      ctx.arc(node.x!, node.y!, node.r, 0, 2 * Math.PI);
       ctx.fill();
     }
   }
@@ -207,10 +233,9 @@ export function draw(
       ctx.moveTo(p1.x, p1.y);
       ctx.quadraticCurveTo(h1.x, h1.y, mid1.x, mid1.y);
       ctx.quadraticCurveTo(h3.x, h3.y, p3.x, p3.y);
-      ctx.arc(target.x, target.y, orbRadius, angle3, angle4);
+      ctx.lineTo(p4.x, p4.y);
       ctx.quadraticCurveTo(h4.x, h4.y, mid2.x, mid2.y);
       ctx.quadraticCurveTo(h2.x, h2.y, p2.x, p2.y);
-      ctx.arc(source.x, source.y, orbRadius, angle2, angle1);
       ctx.closePath();
       ctx.fillStyle = fillColor;
       ctx.fill();
