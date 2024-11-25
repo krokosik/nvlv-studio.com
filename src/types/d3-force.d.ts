@@ -4,7 +4,7 @@ declare module 'd3-force-md' {
   import d3Force, {
     forceSimulation,
     Simulation,
-    SimulationNodeDatum,
+    SimulationNodeDatum as MasslessSimulationNodeDatum,
     Force,
     ForceCenter,
     ForceCollide,
@@ -22,6 +22,11 @@ declare module 'd3-force-md' {
     forceX,
     forceY,
   } from 'd3-force';
+
+  interface SimulationNodeDatum extends MasslessSimulationNodeDatum {
+    mass?: number;
+  }
+
   export default d3Force;
   export {
     forceSimulation,
