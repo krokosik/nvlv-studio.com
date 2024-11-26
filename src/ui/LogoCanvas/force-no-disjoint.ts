@@ -1,4 +1,3 @@
-import type { SimulationNode } from './canvas.utils';
 import FlatQueue from 'flatqueue';
 
 interface MSPEdge {
@@ -7,27 +6,29 @@ interface MSPEdge {
   distance: number;
 }
 
-export const minimalSpanningTree = (nodes: SimulationNode[]): MSPEdge[] => {
+const visited = new Set<{ x: number; y: number }>();
+const heap = new FlatQueue<[number, number]>();
+
+const addEdges = (nodes: { x: number; y: number }[], nodeIndex: number) => {
+  const node = nodes[nodeIndex];
+  nodes.forEach((otherNode, otherIndex) => {
+    if (visited.has(otherNode)) return;
+    const distance = Math.hypot(node.x - otherNode.x, node.y - otherNode.y);
+    heap.push([nodeIndex, otherIndex], distance);
+  });
+};
+
+export const minimalSpanningTree = (
+  nodes: { x: number; y: number }[],
+): MSPEdge[] => {
   // find MSP using Prim's algorithm and distances as weights
-  const visited = new Set<SimulationNode>();
-  const heap = new FlatQueue<[number, number]>();
-  const msp: MSPEdge[] = [];
+  visited.clear();
+  heap.clear();
+  const msp: MSPEdge[] = Array(nodes.length - 1);
 
   visited.add(nodes[0]);
 
-  const addEdges = (nodeIndex: number) => {
-    const node = nodes[nodeIndex];
-    nodes.forEach((otherNode, otherIndex) => {
-      if (visited.has(otherNode)) return;
-      const distance = Math.hypot(
-        node.x! - otherNode.x!,
-        node.y! - otherNode.y!,
-      );
-      heap.push([nodeIndex, otherIndex], distance);
-    });
-  };
-
-  addEdges(0);
+  addEdges(nodes, 0);
   let edge: [number, number] | undefined;
   while ((edge = heap.pop())) {
     const [sourceIndex, targetIndex] = edge;
@@ -37,13 +38,13 @@ export const minimalSpanningTree = (nodes: SimulationNode[]): MSPEdge[] => {
     if (visited.has(nodes[targetIndex])) continue;
     visited.add(nodes[targetIndex]);
 
-    msp.push({
+    msp[visited.size - 2] = {
       source: sourceIndex,
       target: targetIndex,
-      distance: Math.hypot(source.x! - target.x!, source.y! - target.y!),
-    });
+      distance: Math.hypot(source.x - target.x, source.y - target.y),
+    };
 
-    addEdges(targetIndex);
+    addEdges(nodes, targetIndex);
   }
 
   return msp;

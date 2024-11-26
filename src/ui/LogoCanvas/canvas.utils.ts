@@ -1,6 +1,13 @@
-import { forceSimulation, Simulation, SimulationNodeDatum } from 'd3-force-md';
 import d3ForceBounce from 'd3-force-bounce';
+import {
+  forceLink,
+  forceSimulation,
+  Simulation,
+  SimulationLinkDatum,
+  SimulationNodeDatum,
+} from 'd3-force';
 import d3ForceSurface from 'd3-force-surface';
+import { minimalSpanningTree } from './force-no-disjoint';
 
 export interface SimulationParams {
   orbRadiiInDim: number;
@@ -17,7 +24,7 @@ export interface SimulationParams {
 
 export const defaultParams: SimulationParams = {
   orbRadiiInDim: 20 / 3,
-  gasDensity: 0.0001,
+  gasDensity: 0.00005,
   temperature: 5,
   maxLinkThicknessPerRadius: 0.5,
   maxRangePerRadius: 3 / 2,
@@ -31,9 +38,16 @@ export const defaultParams: SimulationParams = {
 export interface SimulationNode extends SimulationNodeDatum {
   type: 'orb' | 'gas';
   r: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
 }
 
+type Sim = Simulation<SimulationNode, SimulationLinkDatum<SimulationNode>>;
+
 export const NUM_ORBS = 5;
+export const MIN_LINK_DISTANCE_PER_RANGE = 0.985;
 
 export function initSimulation(params: {
   gasDensity: number;
@@ -41,14 +55,40 @@ export function initSimulation(params: {
   temperature: number;
   width: number;
   height: number;
-}) {
-  const { width, height, orbRadiiInDim } = params;
+  maxRangePerRadius: number;
+  maxLinkThicknessPerRadius: number;
+}): Sim {
+  const {
+    width,
+    height,
+    orbRadiiInDim,
+    maxRangePerRadius,
+    maxLinkThicknessPerRadius,
+  } = params;
   const orbRadius = Math.min(width, height) / orbRadiiInDim;
   const gasRadius = Math.max(1, Math.sqrt(orbRadius) / 2);
+  const linkDistance =
+    (maxRangePerRadius * maxLinkThicknessPerRadius + 2) *
+    orbRadius *
+    MIN_LINK_DISTANCE_PER_RANGE;
 
-  return forceSimulation(initOrbs({ ...params, orbRadius, gasRadius }))
+  const nodes = initOrbs({
+    ...params,
+    orbRadius,
+    gasRadius,
+    linkDistance: linkDistance,
+  });
+
+  const sim = forceSimulation(nodes)
     .alphaDecay(0)
     .velocityDecay(0)
+    .force(
+      'link',
+      forceLink<SimulationNode, SimulationLinkDatum<SimulationNode>>([])
+        .distance(() => linkDistance)
+        .strength(0.1)
+        .iterations(1),
+    )
     .force(
       'bounce',
       d3ForceBounce().radius((d: SimulationNode) => d.r),
@@ -67,6 +107,42 @@ export function initSimulation(params: {
     )
     .on('tick', () => {})
     .stop();
+
+  return sim;
+}
+
+export function calculateTotalEnergy(simulation: Sim) {
+  const nodes = simulation.nodes();
+  return nodes.reduce(
+    (acc, { r, vx, vy }) => acc + r ** 2 * (vx! ** 2 + vy! ** 2),
+    0,
+  );
+}
+
+export function tickWithEnergyConservation(
+  simulation: Sim,
+  iterations: number = 1,
+) {
+  const E_i = calculateTotalEnergy(simulation);
+  simulation.tick(iterations);
+  const E_f = calculateTotalEnergy(simulation);
+
+  const scale = Math.sqrt(E_i / E_f);
+
+  // apply scaling to large orbs only
+  simulation.nodes().forEach((node) => {
+    node.vx *= scale;
+    node.vy *= scale;
+  });
+}
+
+export function getMSPGaps(
+  nodes: { x: number; y: number }[],
+  linkDistance: number,
+) {
+  return minimalSpanningTree(nodes).filter(
+    ({ distance }) => distance >= linkDistance,
+  );
 }
 
 export function getCanvasPosition(
@@ -241,6 +317,17 @@ export function draw(
       ctx.fill();
     }
   }
+
+  // show msp
+  // const msp = minimalSpanningTree(nodes.slice(0, numOrbs));
+  // msp.forEach((edge) => {
+  //   ctx.beginPath();
+  //   ctx.moveTo(nodes[edge.source].x!, nodes[edge.source].y!);
+  //   ctx.lineTo(nodes[edge.target].x!, nodes[edge.target].y!);
+  //   ctx.strokeStyle = 'red';
+  //   ctx.lineWidth = 1;
+  //   ctx.stroke();
+  // });
 }
 
 export function initOrbs(params: {
@@ -251,6 +338,7 @@ export function initOrbs(params: {
   temperature: number;
   width: number;
   height: number;
+  linkDistance: number;
 }): SimulationNode[] {
   const {
     numOrbs = NUM_ORBS,
@@ -260,34 +348,33 @@ export function initOrbs(params: {
     temperature,
     width,
     height,
+    linkDistance,
   } = params;
   const nodes: SimulationNode[] = [];
 
-  const xRange = [orbRadius, width - orbRadius];
-  const yRange = [orbRadius, height - orbRadius];
+  while (true) {
+    const orbs = generateNonOverlappingOrbs(
+      orbRadius,
+      width - orbRadius,
+      orbRadius,
+      height - orbRadius,
+      orbRadius,
+      numOrbs,
+    );
 
-  for (let i = 0; i < numOrbs; i++) {
-    let x: number, y: number;
-    while (true) {
-      x = random(xRange[0], xRange[1]);
-      y = random(yRange[0], yRange[1]);
-      let valid = true;
-      for (const node of nodes) {
-        if (Math.hypot(node.x! - x, node.y! - y) < orbRadius * 2) {
-          valid = false;
-          break;
-        }
-      }
-      if (valid) break;
+    if (getMSPGaps(orbs, linkDistance).length === 0) {
+      orbs.forEach(({ x, y }) => {
+        nodes.push({
+          type: 'orb',
+          x,
+          y,
+          vx: 0,
+          vy: 0,
+          r: orbRadius,
+        });
+      });
+      break;
     }
-    nodes.push({
-      type: 'orb',
-      x,
-      y,
-      vx: 0,
-      vy: 0,
-      r: orbRadius,
-    });
   }
 
   const numDustParticales = gasDensity * width * height;
@@ -304,6 +391,37 @@ export function initOrbs(params: {
     }
   }
 
+  return nodes;
+}
+
+export function generateNonOverlappingOrbs(
+  xMin: number,
+  xMax: number,
+  yMin: number,
+  yMax: number,
+  orbRadius: number,
+  numOrbs: number,
+): { x: number; y: number }[] {
+  const nodes = [];
+  for (let i = 0; i < numOrbs; i++) {
+    let x: number, y: number;
+    while (true) {
+      x = random(xMin, xMax);
+      y = random(yMin, yMax);
+      let valid = true;
+      for (const node of nodes) {
+        if (Math.hypot(node.x! - x, node.y! - y) < orbRadius * 2) {
+          valid = false;
+          break;
+        }
+      }
+      if (valid) break;
+    }
+    nodes.push({
+      x,
+      y,
+    });
+  }
   return nodes;
 }
 

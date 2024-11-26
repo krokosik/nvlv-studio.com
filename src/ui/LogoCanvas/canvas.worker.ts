@@ -1,9 +1,12 @@
-import { Simulation } from 'd3-force-md';
+import type { ForceLink, Simulation } from 'd3-force';
 import {
   draw,
+  getMSPGaps,
   initSimulation,
+  NUM_ORBS,
   SimulationNode,
   SimulationParams,
+  tickWithEnergyConservation,
 } from './canvas.utils';
 
 let simulation: Simulation<SimulationNode, any> | undefined;
@@ -65,7 +68,16 @@ function animate(timestamp: number) {
 
   // Only update if enough time has passed
   if (deltaTime >= FRAME_TIME) {
-    simulation?.tick();
+    const nodes = simulation.nodes();
+    const link = simulation.force('link') as ForceLink<SimulationNode, any>;
+    const links = getMSPGaps(
+      nodes.slice(0, NUM_ORBS),
+      link.distance()(1, 2, []),
+    );
+    link!.links(links);
+
+    tickWithEnergyConservation(simulation);
+
     draw(
       ctx,
       { ...params, width: canvas.width, height: canvas.height },
