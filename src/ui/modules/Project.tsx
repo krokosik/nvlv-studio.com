@@ -10,6 +10,7 @@ import {
 import Img from '../Img';
 import Pretitle from '../Pretitle';
 import CustomPortableText from './CustomPortableText';
+import LogoCanvas from '../LogoCanvas/LogoCanvas';
 
 export default function Project({
   title,
@@ -42,8 +43,16 @@ export default function Project({
         color: colors.textColor,
       }}
     >
-      <div className="col-span-full row-span-2 grid h-full grid-cols-subgrid divide-x divide-black">
-        <div className="col-span-7"></div>
+      <div className="col-span-3 col-start-1 row-start-1 mt-12 aspect-square">
+        <LogoCanvas
+          static
+          square
+          fillColor={colors.textColor}
+          backgroundColor="transparent"
+        />
+      </div>
+      <div className="col-span-full col-start-1 row-span-2 row-start-1 grid h-full grid-cols-subgrid divide-x divide-black">
+        <div className="col-span-7" />
         <div className="col-span-12 p-2">
           <Carousel opts={{ loop: true }}>
             <CarouselContent className="items-center">
