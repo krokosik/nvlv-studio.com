@@ -5,15 +5,15 @@ import {
   initSimulation,
   NUM_ORBS,
   SimulationNode,
-  SimulationParams,
   tickWithEnergyConservation,
 } from './canvas.utils';
+import type { LogoCanvasProps } from './LogoCanvas';
 
 let simulation: Simulation<SimulationNode, any> | undefined;
 let canvas: OffscreenCanvas;
 let ctx: OffscreenCanvasRenderingContext2D;
-let animationFrameId: number;
-let params: SimulationParams;
+let animationFrameId: number | null = null;
+let params: Required<LogoCanvasProps>;
 
 let lastTime = 0;
 const TARGET_FPS = 60;
@@ -39,6 +39,9 @@ self.onmessage = (e: MessageEvent) => {
     case 'resize': {
       createOffscreenCanvas(width, height);
       simulation = initSimulation({ ...params, width, height });
+      if (params.static) {
+        animate(0);
+      }
       break;
     }
 
@@ -53,7 +56,10 @@ self.onmessage = (e: MessageEvent) => {
     }
 
     case 'stop': {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
       break;
     }
     default:
@@ -67,7 +73,7 @@ function animate(timestamp: number) {
   const deltaTime = timestamp - lastTime;
 
   // Only update if enough time has passed
-  if (deltaTime >= FRAME_TIME) {
+  if (deltaTime >= FRAME_TIME || params?.static) {
     const nodes = simulation.nodes();
     const link = simulation.force('link') as ForceLink<SimulationNode, any>;
     const links = getMSPGaps(
@@ -90,5 +96,7 @@ function animate(timestamp: number) {
     lastTime = timestamp - (deltaTime % FRAME_TIME); // Adjust for any remainder
   }
 
-  animationFrameId = requestAnimationFrame(animate);
+  if (!params?.static) {
+    animationFrameId = requestAnimationFrame(animate);
+  }
 }

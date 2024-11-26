@@ -17,23 +17,7 @@ export interface SimulationParams {
   maxRangePerRadius: number;
   backgroundColor: string;
   fillColor: string;
-  square?: boolean;
-  globalAlpha?: number;
-  objectFit?: 'contain' | 'cover';
 }
-
-export const defaultParams: SimulationParams = {
-  orbRadiiInDim: 20 / 3,
-  gasDensity: 0.00005,
-  temperature: 5,
-  maxLinkThicknessPerRadius: 0.5,
-  maxRangePerRadius: 3 / 2,
-  backgroundColor: '#000',
-  fillColor: '#fff',
-  square: false,
-  globalAlpha: 1,
-  objectFit: 'cover',
-};
 
 export interface SimulationNode extends SimulationNodeDatum {
   type: 'orb' | 'gas';
@@ -189,7 +173,7 @@ export function resizeCanvasToDisplaySize(
 }
 
 export function draw(
-  ctx: OffscreenCanvasRenderingContext2D,
+  ctx: OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D,
   params: {
     numOrbs?: number;
     gasDensity: number;

@@ -4,16 +4,31 @@ import { useCallback, useEffect, useRef } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
 import { cn } from '@/lib/utils';
-import {
-  defaultParams,
-  draw,
-  initSimulation,
-  resizeCanvasToDisplaySize,
-  SimulationParams,
-} from './canvas.utils';
+import { resizeCanvasToDisplaySize, SimulationParams } from './canvas.utils';
 
-export default function LogoCanvas(props: Partial<SimulationParams>) {
-  const params = { ...defaultParams, ...props };
+export interface LogoCanvasProps extends Partial<SimulationParams> {
+  static?: boolean;
+  square?: boolean;
+  globalAlpha?: number;
+  objectFit?: 'contain' | 'cover';
+}
+
+export const defaultParams: LogoCanvasProps = {
+  orbRadiiInDim: 20 / 3,
+  gasDensity: 0.00005,
+  temperature: 5,
+  maxLinkThicknessPerRadius: 0.5,
+  maxRangePerRadius: 3 / 2,
+  backgroundColor: '#000',
+  fillColor: '#fff',
+  static: false,
+  square: false,
+  globalAlpha: 1,
+  objectFit: 'cover',
+};
+
+export default function LogoCanvas(props: LogoCanvasProps) {
+  const params = { ...defaultParams, ...props } as Required<LogoCanvasProps>;
   const ref = useRef<HTMLCanvasElement>(null);
   const workerRef = useRef<Worker | null>(null);
 
@@ -44,7 +59,6 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
     });
 
     return () => {
-      console.log('Cleaning up');
       workerRef.current?.postMessage({ type: 'stop' });
       workerRef.current?.terminate();
       workerRef.current = null;
