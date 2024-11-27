@@ -82,7 +82,7 @@ export default function Project({
         <div className="col-span-1" />
       </div>
       <div className="col-span-full grid grid-cols-subgrid grid-rows-3">
-        <div className="col-span-12 col-start-8 row-span-3 grid size-full grid-rows-subgrid text-6xl/[0.8] font-medium">
+        <div className="col-span-12 col-start-8 row-span-3 grid size-full grid-rows-subgrid text-6xl font-medium">
           <span className="self-end" style={{ color: colors.accentColor }}>
             //:
           </span>

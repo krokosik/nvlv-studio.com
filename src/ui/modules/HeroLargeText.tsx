@@ -26,9 +26,9 @@ export default function HeroLargeText({
         <div className="section flex w-full flex-col">
           <div
             className={cn(
-              'mx-auto my-auto max-w-7xl text-center',
-              'text-nowrap text-4xl/[0.8] font-normal',
-              'xs:text-5xl/[0.8] sm:text-6xl/[0.8] md:text-7xl/[0.8] lg:text-8xl/[0.8] 2xl:text-9xl/[0.8]',
+              'mx-auto my-auto max-w-7xl text-center text-2xl',
+              'text-nowrap text-4xl font-normal',
+              'xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-9xl',
             )}
           >
             {content.map(({ iconLeft, iconRight, text }) => (
