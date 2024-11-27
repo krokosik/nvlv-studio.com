@@ -51,7 +51,13 @@ export default function HeroLargeText({
           </div>
         </div>
       )}
-      <div className="z-10 mx-auto my-auto size-full max-h-fold max-w-52 object-contain sm:size-full sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
+      <div
+        className={cn(
+          'z-10 mx-auto my-auto size-full max-h-fold max-w-52 object-contain',
+          'sm:size-full sm:max-w-xs md:max-w-sm lg:max-w-[30rem]',
+          'xl:max-w-lg 2xl:max-w-[38rem]',
+        )}
+      >
         <LogoCanvas
           fillColor={fillColor ?? 'transparent'}
           backgroundColor="transparent"
