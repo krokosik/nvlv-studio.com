@@ -37,14 +37,14 @@ export default function Project({
 
   return (
     <section
-      className="mb-[var(--header-height)] grid h-screen max-h-fold w-full px-20"
+      className="mb-[var(--header-height)] w-full px-2 md:max-h-fold lg:px-20"
       style={{
         backgroundColor: colors.backgroundColor,
         color: colors.textColor,
       }}
     >
-      <div className="mx-auto grid max-w-7xl grid-cols-32 grid-rows-3">
-        <div className="col-span-3 col-start-1 row-start-1 mt-12 aspect-square">
+      <div className="mx-auto max-w-7xl md:grid md:grid-cols-2 md:grid-rows-3 xl:grid-cols-32">
+        <div className="col-span-3 col-start-1 row-start-1 mt-12 hidden aspect-square xl:block">
           <LogoCanvas
             static
             square
@@ -52,9 +52,28 @@ export default function Project({
             backgroundColor="transparent"
           />
         </div>
-        <div className="col-span-full col-start-1 row-span-2 row-start-1 grid h-full grid-cols-subgrid divide-x divide-black">
-          <div className="col-span-7" />
-          <div className="col-span-12 p-2">
+        <div className="col-span-full grid-cols-subgrid grid-rows-3 gap-x-6 px-4 pt-8 md:grid md:pt-0 xl:gap-x-0">
+          <div className="row-span-3 grid size-full grid-rows-subgrid text-5xl font-medium md:text-6xl xl:col-span-12 xl:col-start-8">
+            <span className="self-end" style={{ color: colors.accentColor }}>
+              //:
+            </span>
+            <h3 className="row-span-2">
+              {title?.split(' ')[0]}
+              <span style={{ color: colors.accentColor }}>:</span>
+              <br />
+              {title?.split(' ')[1]}
+              <span style={{ color: colors.accentColor }}>.01</span>
+            </h3>
+          </div>
+          <div className="col-start-2 row-span-2 row-start-2 pt-8 md:pt-0 xl:col-span-12 xl:col-start-20">
+            <Pretitle style={{ color: colors.accentColor }}>
+              {pretitle}
+            </Pretitle>
+          </div>
+        </div>
+        <div className="col-span-full row-span-2 h-full grid-cols-subgrid md:col-start-1 md:row-start-1 md:grid md:divide-x md:divide-black">
+          <div className="hidden xl:col-span-7 xl:block" />
+          <div className="flex h-full items-center p-2 pt-8 xl:col-span-12 xl:pt-2">
             <Carousel opts={{ loop: true }}>
               <CarouselContent className="items-center">
                 {gallery?.images.map((image) => (
@@ -75,31 +94,12 @@ export default function Project({
               <CarouselDots />
             </Carousel>
           </div>
-          <div className="col-span-12 size-full px-4">
+          <div className="size-full px-4 py-16 xl:col-span-12 xl:px-4 xl:py-0">
             <div className="flex size-full flex-col justify-center">
               <CustomPortableText value={description} />
             </div>
           </div>
           <div className="col-span-1" />
-        </div>
-        <div className="col-span-full grid grid-cols-subgrid grid-rows-3">
-          <div className="col-span-12 col-start-8 row-span-3 grid size-full grid-rows-subgrid text-6xl font-medium">
-            <span className="self-end" style={{ color: colors.accentColor }}>
-              //:
-            </span>
-            <h3 className="row-span-2">
-              {title?.split(' ')[0]}
-              <span style={{ color: colors.accentColor }}>:</span>
-              <br />
-              {title?.split(' ')[1]}
-              <span style={{ color: colors.accentColor }}>.01</span>
-            </h3>
-          </div>
-          <div className="col-span-12 col-start-20 row-span-2 row-start-2">
-            <Pretitle style={{ color: colors.accentColor }}>
-              {pretitle}
-            </Pretitle>
-          </div>
         </div>
       </div>
     </section>
