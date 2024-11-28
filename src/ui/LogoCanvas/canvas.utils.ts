@@ -159,6 +159,11 @@ export function resizeCanvasToDisplaySize(
     ? Math.max(displayWidth, displayHeight)
     : displayHeight;
 
+  // Prevent resizing to zero, as it breaks the worker on display: none
+  if (!desiredHeight || !desiredWidth) {
+    return false;
+  }
+
   // Check if the canvas is not the same size.
   const needResize =
     canvas.width != desiredWidth || canvas.height != desiredHeight;
