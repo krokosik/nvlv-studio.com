@@ -53,8 +53,6 @@ export function initSimulation(
     orbRadius *
     MIN_LINK_DISTANCE_PER_RANGE;
 
-  console.log(positions, dims);
-
   const nodes = initOrbs(
     { ...params, orbRadius, gasRadius },
     dims,

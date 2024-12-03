@@ -27,7 +27,6 @@ function createOffscreenCanvas(width: number, height: number) {
 
 self.onmessage = (e: MessageEvent) => {
   const { type, width, height, newParams } = e.data;
-  console.log(type);
 
   switch (type) {
     case 'init': {
