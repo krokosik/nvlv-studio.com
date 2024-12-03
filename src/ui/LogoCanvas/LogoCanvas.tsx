@@ -42,20 +42,18 @@ export default function LogoCanvas(props: LogoCanvasProps) {
     );
 
     workerRef.current.onmessage = (e) => {
-      if (e.data.type === 'frame') {
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.globalAlpha = params.globalAlpha ?? 1;
-        ctx.drawImage(e.data.image, 0, 0);
-      }
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.globalAlpha = params.globalAlpha ?? 1;
+      ctx.drawImage(e.data, 0, 0);
     };
 
     workerRef.current.postMessage({
       type: 'init',
       width: canvas.width,
       height: canvas.height,
-      params,
+      newParams: params,
     });
 
     return () => {

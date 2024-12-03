@@ -2,6 +2,7 @@ import type { ForceLink, Simulation } from 'd3-force';
 import {
   draw,
   getMSPGaps,
+  getNormalizedOrbPositions,
   initSimulation,
   NUM_ORBS,
   SimulationNode,
@@ -10,10 +11,10 @@ import {
 import type { LogoCanvasProps } from './LogoCanvas';
 
 let simulation: Simulation<SimulationNode, any> | undefined;
-let canvas: OffscreenCanvas;
-let ctx: OffscreenCanvasRenderingContext2D;
+let canvas: OffscreenCanvas | undefined;
+let ctx: OffscreenCanvasRenderingContext2D | undefined;
 let animationFrameId: number | null = null;
-let params: Required<LogoCanvasProps>;
+let params: Required<LogoCanvasProps> | undefined;
 
 let lastTime = 0;
 const TARGET_FPS = 60;
@@ -26,19 +27,28 @@ function createOffscreenCanvas(width: number, height: number) {
 
 self.onmessage = (e: MessageEvent) => {
   const { type, width, height, newParams } = e.data;
+  console.log(type);
 
   switch (type) {
     case 'init': {
       params = newParams;
       createOffscreenCanvas(width, height);
-      simulation = initSimulation({ ...params, width, height });
+      simulation = initSimulation(params!, { width, height });
       animate(0);
       break;
     }
 
     case 'resize': {
+      if (!params) return;
+      const oldPositions =
+        simulation && canvas?.width && canvas?.height
+          ? getNormalizedOrbPositions(simulation, {
+              width: canvas.width,
+              height: canvas.height,
+            })
+          : undefined;
       createOffscreenCanvas(width, height);
-      simulation = initSimulation({ ...params, width, height });
+      simulation = initSimulation(params, { width, height }, oldPositions);
       if (params.static) {
         animate(0);
       }
@@ -47,11 +57,19 @@ self.onmessage = (e: MessageEvent) => {
 
     case 'params': {
       params = newParams;
-      simulation = initSimulation({
-        ...params,
-        width: canvas.width,
-        height: canvas.height,
-      });
+      if (!canvas) return;
+
+      const oldPositions = simulation
+        ? getNormalizedOrbPositions(simulation, {
+            width: canvas.width,
+            height: canvas.height,
+          })
+        : undefined;
+      simulation = initSimulation(
+        params!,
+        { width: canvas.width, height: canvas.height },
+        oldPositions,
+      );
       break;
     }
 
@@ -68,12 +86,12 @@ self.onmessage = (e: MessageEvent) => {
 };
 
 function animate(timestamp: number) {
-  if (!simulation || !ctx) return;
+  if (!simulation || !ctx || !canvas || !params) return;
 
   const deltaTime = timestamp - lastTime;
 
   // Only update if enough time has passed
-  if (deltaTime >= FRAME_TIME || params?.static) {
+  if (deltaTime >= FRAME_TIME || params.static) {
     const nodes = simulation.nodes();
     const link = simulation.force('link') as ForceLink<SimulationNode, any>;
     const links = getMSPGaps(
@@ -86,12 +104,14 @@ function animate(timestamp: number) {
 
     draw(
       ctx,
-      { ...params, width: canvas.width, height: canvas.height },
+      params,
+      { width: canvas.width, height: canvas.height },
       simulation,
     );
 
     const imageBitmap = canvas.transferToImageBitmap();
-    self.postMessage({ type: 'frame', image: imageBitmap });
+    // @ts-ignore
+    self.postMessage(imageBitmap, [imageBitmap]);
 
     lastTime = timestamp - (deltaTime % FRAME_TIME); // Adjust for any remainder
   }
