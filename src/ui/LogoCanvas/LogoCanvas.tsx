@@ -32,45 +32,6 @@ export default function LogoCanvas(props: LogoCanvasProps) {
   const ref = useRef<HTMLCanvasElement>(null);
   const workerRef = useRef<Worker | null>(null);
 
-  useEffect(() => {
-    if (!ref.current) return;
-
-    const canvas = ref.current;
-
-    workerRef.current = new Worker(
-      new URL('./canvas.worker.ts', import.meta.url),
-    );
-
-    workerRef.current.onmessage = (e) => {
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.globalAlpha = params.globalAlpha ?? 1;
-      ctx.drawImage(e.data, 0, 0);
-    };
-
-    workerRef.current.postMessage({
-      type: 'init',
-      width: canvas.width,
-      height: canvas.height,
-      newParams: params,
-    });
-
-    return () => {
-      workerRef.current?.postMessage({ type: 'stop' });
-      workerRef.current?.terminate();
-      workerRef.current = null;
-    };
-  }, [ref.current]);
-
-  useEffect(
-    () => {
-      if (!workerRef.current) return;
-      workerRef.current.postMessage({ type: 'params', newParams: params });
-    },
-    Array(Object.values(params)),
-  );
-
   const handleResize = useCallback(() => {
     if (!ref.current) return;
     const canvas = ref.current;
@@ -88,6 +49,37 @@ export default function LogoCanvas(props: LogoCanvasProps) {
   const setupDebounced = useDebounceCallback(handleResize, 500, true);
 
   useResizeObserver({ ref, onResize: setupDebounced });
+
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+
+    workerRef.current = new Worker(
+      new URL('./canvas.worker.ts', import.meta.url),
+    );
+
+    workerRef.current.onmessage = (e) => {
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.globalAlpha = params.globalAlpha ?? 1;
+      ctx.drawImage(e.data, 0, 0);
+    };
+
+    return () => {
+      workerRef.current?.postMessage({ type: 'stop' });
+      workerRef.current?.terminate();
+      workerRef.current = null;
+    };
+  }, []);
+
+  useEffect(
+    () => {
+      if (!workerRef.current) return;
+      workerRef.current.postMessage({ type: 'params', newParams: params });
+    },
+    Array(Object.values(params)),
+  );
 
   return (
     <canvas
